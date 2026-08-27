@@ -1,0 +1,535 @@
+@import 'tailwindcss';
+
+@custom-variant dark (&:is(.dark *));
+
+@theme {
+  --spacing-6xl: 75rem;
+  --container-screen-2xl: 83.75rem;
+
+  --shadow-service: 0px 3px 20px 0px #8e9ca90d;
+  --shadow-deatail_shadow: 0px 20px 80px 0px #68758d26;
+  --shadow-dark-md: rgba(145, 158, 171, 0.2) 0px 0px 2px 0px,
+    rgba(145, 158, 171, 0.12) 0px 12px 24px -4px;
+
+  --transition-duration-150: 150ms;
+
+  --spacing-25: 25rem;
+  --spacing-29: 28rem;
+  --spacing-45: 45rem;
+  --spacing-50: 50rem;
+  --spacing-94: 22.5rem;
+  --spacing-120: 120rem;
+  --spacing-6_25: 6.25rem;
+  --spacing-70\%: 70%;
+  --spacing-40\%: 40%;
+  --spacing-30\%: 30%;
+  --spacing-60\%: 60%;
+  --spacing-8_5: 8.5rem;
+  --spacing-3_75: 3.75rem;
+
+  --height-150: 750px;
+  --height-6_25: 6.25rem;
+
+  --leading-extra-loose: 2.5;
+  --leading-2_5: 2.5rem;
+
+  --inset-5\%: 5%;
+  --inset-35\%: 35%;
+
+  --z-index-1: 1;
+  --z-index-2: 2;
+  --z-index-999: 999;
+
+  --color-primary: #2f73f2;
+  --color-secondary: #547593;
+  --color-midnight_text: #102d47;
+  --color-grey: #668199;
+  --color-border: #ccd7e1;
+  --color-success: #3cd278;
+  --color-section: #f8fafc;
+  --color-darkmode: #081738;
+  --color-darklight: #000f30;
+  --color-dark_border: #224767;
+  --color-Sky-blue-mist: #c0d5fb;
+
+  --background-image-gradient-radial: radial-gradient(var(--tw-gradient-stops));
+  --background-image-gradient-conic: conic-gradient(
+    from 180deg at 50% 50%,
+    var(--tw-gradient-stops)
+  );
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   ASTRACORE DESIGN SYSTEM
+   One accent. One type scale. One spacing rhythm.
+   ══════════════════════════════════════════════════════════════════════════ */
+
+:root {
+  /* Surfaces — a single near-black ramp, never pure #000 */
+  --ac-bg: #08090c;
+  --ac-surface: #0e1014;
+  --ac-surface-2: #14171d;
+  --ac-surface-3: #1b1f27;
+
+  /* Hairlines */
+  --ac-line: rgba(255, 255, 255, 0.07);
+  --ac-line-strong: rgba(255, 255, 255, 0.14);
+
+  /* Text ramp — four steps, no more.
+     Every step clears WCAG AA (4.5:1) against --ac-bg: on this background an
+     alpha of 0.45 lands exactly on 4.5:1, so nothing sits below 0.47. */
+  --ac-ink: #ffffff;              /* 19.5:1 — headings                */
+  --ac-ink-2: rgba(255, 255, 255, 0.72); /* ~10.4:1 — body            */
+  --ac-ink-3: rgba(255, 255, 255, 0.58); /*  ~6.7:1 — secondary       */
+  --ac-ink-4: rgba(255, 255, 255, 0.47); /*  ~4.8:1 — micro labels    */
+
+  /* Status colours — semantic only. These appear inside the console
+     simulator and estimator, where green/amber carry meaning. They are
+     never used decoratively; the brand has exactly one accent. */
+  --ac-ok: #22d67f;
+  --ac-warn: #e8b53c;
+
+  /* The single accent */
+  --ac-accent: #00e5ff;
+  --ac-accent-dim: rgba(0, 229, 255, 0.14);
+  --ac-accent-line: rgba(0, 229, 255, 0.3);
+  --ac-on-accent: #04121a;
+
+  /* Rhythm */
+  --ac-section-y: clamp(60px, 5.5vw, 92px);
+  --ac-gutter: clamp(20px, 5vw, 64px);
+  --ac-max: 1280px;
+  --ac-max-prose: 68ch;
+
+  /* Motion */
+  --ac-ease: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--ac-line);
+  }
+
+  html {
+    scroll-behavior: smooth;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    overflow-x: hidden;
+    background: var(--ac-bg);
+    color: var(--ac-ink-2);
+  }
+
+  /* Section rhythm — uniform vertical cadence across the whole site.
+     Components opt out with their own py-* when a section is edge-to-edge. */
+  section {
+    padding-top: var(--ac-section-y);
+    padding-bottom: var(--ac-section-y);
+  }
+
+  ::selection {
+    background: var(--ac-accent);
+    color: var(--ac-on-accent);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--ac-accent);
+    outline-offset: 3px;
+  }
+}
+
+/* Component classes live in @layer components so Tailwind utilities,
+   which come later in the cascade, can still override them. Unlayered
+   rules would beat every utility and silently break layout. */
+@layer components {
+  /* ── Layout primitives ──────────────────────────────────────────────────── */
+
+  .ac-container {
+    width: 100%;
+    max-width: var(--ac-max);
+    margin-inline: auto;
+    padding-inline: var(--ac-gutter);
+  }
+
+  .ac-container-wide {
+    width: 100%;
+    padding-inline: var(--ac-gutter);
+  }
+
+  /* Kills the default section padding for full-bleed sections */
+  .ac-flush {
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+
+  /* ── Type scale ─────────────────────────────────────────────────────────── */
+
+  .ac-display {
+    font-family: Syne, sans-serif;
+    font-weight: 800;
+    font-size: clamp(38px, 5vw, 68px);
+    line-height: 0.98;
+    letter-spacing: -0.03em;
+    color: var(--ac-ink);
+    text-wrap: balance;
+  }
+
+  .ac-h2 {
+    font-family: Syne, sans-serif;
+    font-weight: 800;
+    font-size: clamp(28px, 3.4vw, 46px);
+    line-height: 1.04;
+    letter-spacing: -0.025em;
+    color: var(--ac-ink);
+    text-wrap: balance;
+  }
+
+  .ac-h3 {
+    font-family: Syne, sans-serif;
+    font-weight: 700;
+    font-size: clamp(19px, 1.5vw, 22px);
+    line-height: 1.25;
+    letter-spacing: -0.015em;
+    color: var(--ac-ink);
+  }
+
+  .ac-h4 {
+    font-family: Syne, sans-serif;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 1.3;
+    letter-spacing: -0.01em;
+    color: var(--ac-ink);
+  }
+
+  /* Body copy is always Inter — never the display face */
+  .ac-lead {
+    font-size: clamp(16px, 1.35vw, 18px);
+    line-height: 1.7;
+    color: var(--ac-ink-2);
+    max-width: 52ch;
+  }
+
+  .ac-body {
+    font-size: 15px;
+    line-height: 1.7;
+    color: var(--ac-ink-2);
+  }
+
+  .ac-small {
+    font-size: 13px;
+    line-height: 1.6;
+    color: var(--ac-ink-3);
+  }
+
+  /* Section label — the one place the accent appears as text */
+  .ac-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--ac-accent);
+  }
+
+  .ac-eyebrow::before {
+    content: '';
+    width: 5px;
+    height: 5px;
+    border-radius: 999px;
+    background: currentColor;
+    flex: none;
+  }
+
+  /* Muted continuation line — replaces the old near-invisible 13% ghost text.
+     Held at 40% so it stays subordinate but clears 3:1 contrast at display sizes. */
+  .ac-muted-line {
+    color: var(--ac-ink-3);
+  }
+
+  /* ── Surfaces ───────────────────────────────────────────────────────────── */
+
+  .ac-card {
+    background: var(--ac-surface);
+    border: 1px solid var(--ac-line);
+    transition: border-color 0.3s var(--ac-ease), background-color 0.3s var(--ac-ease);
+  }
+
+  .ac-card:hover {
+    background: var(--ac-surface-2);
+    border-color: var(--ac-line-strong);
+  }
+
+  /* Equal-height card interiors — fixes the ragged grids */
+  .ac-card-body {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+
+  .ac-card-foot {
+    margin-top: auto;
+  }
+
+  /* ── Buttons ────────────────────────────────────────────────────────────── */
+
+  .ac-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 14px 28px;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    white-space: nowrap;
+    transition: all 0.3s var(--ac-ease);
+  }
+
+  .ac-btn-primary {
+    background: var(--ac-accent);
+    color: var(--ac-on-accent);
+  }
+
+  .ac-btn-primary:hover {
+    background: #5cf0ff;
+  }
+
+  .ac-btn-ghost {
+    border: 1px solid var(--ac-line-strong);
+    color: var(--ac-ink);
+  }
+
+  .ac-btn-ghost:hover {
+    border-color: var(--ac-accent);
+    color: var(--ac-accent);
+  }
+
+  .ac-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ac-accent);
+    border-bottom: 1px solid var(--ac-accent-line);
+    padding-bottom: 3px;
+    transition: border-color 0.25s var(--ac-ease);
+  }
+
+  .ac-link:hover {
+    border-color: var(--ac-accent);
+  }
+
+  /* ── Tags / meta chips ──────────────────────────────────────────────────── */
+
+  .ac-tag {
+    display: inline-flex;
+    align-items: center;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--ac-ink-3);
+    border: 1px solid var(--ac-line);
+    padding: 5px 10px;
+  }
+
+  .ac-tag-accent {
+    color: var(--ac-accent);
+    border-color: var(--ac-accent-line);
+  }
+
+  /* ── Photography treatment ──────────────────────────────────────────────
+     Every photo on the site gets the same grade so bright stock imagery
+     sits inside the near-black theme instead of punching holes in it. */
+
+  .ac-media {
+    position: relative;
+    overflow: hidden;
+    background: var(--ac-surface-2);
+  }
+
+  /* Direct children get the box; any descendant image gets the grade, so
+     next/image `fill` (which nests the <img>) is treated the same way. */
+  .ac-media > img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    object-fit: cover;
+  }
+
+  .ac-media img {
+    filter: saturate(0.5) contrast(1.06) brightness(0.62);
+    transition: filter 0.6s var(--ac-ease), transform 0.7s var(--ac-ease);
+  }
+
+  .ac-media::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to top,
+      rgba(8, 9, 12, 0.92) 0%,
+      rgba(8, 9, 12, 0.45) 45%,
+      rgba(8, 9, 12, 0.15) 100%
+    );
+    pointer-events: none;
+  }
+
+  .ac-media-plain::after {
+    background: linear-gradient(to top, rgba(8, 9, 12, 0.55) 0%, rgba(8, 9, 12, 0.1) 70%);
+  }
+
+  .group:hover .ac-media img,
+  .ac-media:hover img {
+    filter: saturate(0.85) contrast(1.04) brightness(0.8);
+    transform: scale(1.04);
+  }
+
+  /* ── Hairline dividers ──────────────────────────────────────────────────── */
+
+  .ac-rule {
+    border-top: 1px solid var(--ac-line);
+  }
+
+  /* ── Utility kept from the previous theme ───────────────────────────────── */
+
+  .margin_top {
+    @apply md:mt-[6.25rem] mt-0;
+  }
+
+  /* Slick Slider */
+  .slick-slide,
+  .portfolio_slide {
+    @apply focus-visible:outline-0!;
+  }
+  .slick-dots li.slick-active button:before {
+    @apply opacity-100! text-primary! w-4! h-4!;
+  }
+  .slick-dots li button:before {
+    @apply text-base! text-[#BBC8D5]! opacity-100!;
+  }
+
+  /* ── Blog article body ──────────────────────────────────────────────────── */
+
+  .blog-details {
+    font-size: 16px;
+    line-height: 1.8;
+    color: var(--ac-ink-2);
+  }
+
+  .blog-details p,
+  .blog-details hr {
+    margin-bottom: 1.75rem;
+  }
+
+  .blog-details hr {
+    border-top: 1px solid var(--ac-line);
+  }
+
+  .blog-details strong {
+    font-weight: 700;
+    color: var(--ac-ink);
+  }
+
+  .blog-details ul {
+    margin-bottom: 1.75rem;
+    list-style: disc;
+    list-style-position: inside;
+  }
+
+  .blog-details ol {
+    margin-bottom: 1.75rem;
+    list-style: decimal;
+    list-style-position: inside;
+  }
+
+  .blog-details li {
+    margin-bottom: 0.65rem;
+  }
+
+  .blog-details h1,
+  .blog-details h2,
+  .blog-details h3 {
+    font-family: Syne, sans-serif;
+    font-weight: 800;
+    letter-spacing: -0.025em;
+    color: var(--ac-ink);
+    margin-top: 2.75rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .blog-details h1 {
+    font-size: clamp(28px, 3vw, 38px);
+    line-height: 1.12;
+  }
+
+  .blog-details h2 {
+    font-size: clamp(24px, 2.4vw, 30px);
+    line-height: 1.16;
+  }
+
+  .blog-details h3 {
+    font-size: 21px;
+    line-height: 1.25;
+  }
+
+  .blog-details img {
+    margin-block: 2.5rem;
+    width: 100%;
+    border: 1px solid var(--ac-line);
+    object-fit: cover;
+    filter: saturate(0.6) brightness(0.85);
+  }
+
+  .blog-details a {
+    color: var(--ac-accent);
+    text-decoration: underline;
+    text-underline-offset: 4px;
+  }
+
+  /* ── Legacy helpers still referenced by a few components ────────────────── */
+
+  .premium-glass {
+    background: rgba(255, 255, 255, 0.025);
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--ac-line);
+  }
+
+  .cyan-glow {
+    box-shadow: 0 0 35px rgba(0, 229, 255, 0.08);
+  }
+
+  .premium-text-gradient {
+    background: linear-gradient(135deg, #ffffff 40%, #c1cbd6 80%, #00e5ff 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+}
+
+/* ── Reduced motion ─────────────────────────────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
