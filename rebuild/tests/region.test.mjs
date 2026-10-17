@@ -1,0 +1,3 @@
+import test from 'node:test';import assert from 'node:assert/strict';import {chooseRegion} from '../lib/region.ts';
+test('African edge locations use Kenya; all other or unknown locations use global',()=>{assert.equal(chooseRegion('AF'),'ke');for(const c of ['NA','EU','AS','OC','SA','AN',undefined])assert.equal(chooseRegion(c),'us')});
+test('Manual choice wins and unrelated cookies cannot override it',()=>{assert.equal(chooseRegion('AF','astra_region=us; x=1'),'us');assert.equal(chooseRegion('NA','x=1; astra_region=ke'),'ke');assert.equal(chooseRegion('NA','not_astra_region=ke'),'us');assert.equal(chooseRegion('NA','astra_region=bad'),'us')});

@@ -1,0 +1,1 @@
+export default function NotFound(){return <main className="region-page"><span className="eyebrow">404 / NOT FOUND</span><h1>A different direction?</h1><p>This page does not exist.</p><a className="btn dark" href="/">Choose your region</a></main>}

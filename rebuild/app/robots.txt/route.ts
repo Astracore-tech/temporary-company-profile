@@ -1,0 +1,1 @@
+export function GET(req:Request){const live=new URL(req.url).hostname==='astracoretech.org';return new Response(live?'User-agent: *\nAllow: /\nDisallow: /api/\nDisallow: /reports/\nDisallow: /admin/\nSitemap: https://astracoretech.org/sitemap.xml\n':'User-agent: *\nDisallow: /\n',{headers:{'Content-Type':'text/plain'}})}

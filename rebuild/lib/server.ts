@@ -1,0 +1,7 @@
+import {env} from 'cloudflare:workers';
+export function db(){const d=(env as any).DB as D1Database;if(!d)throw Error('Storage is temporarily unavailable. Please email info@astracoretech.org.');return d;}
+export function sameOrigin(req:Request){const origin=req.headers.get('origin');return !origin||origin===new URL(req.url).origin;}
+export async function rateLimit(req:Request,kind:string,max:number){const now=Date.now(),bucket=Math.floor(now/3600000);const address=req.headers.get('cf-connecting-ip')||'unknown';const digest=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(address+':'+bucket));const hash=Array.from(new Uint8Array(digest)).map(x=>x.toString(16).padStart(2,'0')).join('');const key=`${kind}:${bucket}:${hash}`;const d=db();await d.prepare('INSERT INTO limits (key,count,expires) VALUES (?,1,?) ON CONFLICT(key) DO UPDATE SET count=count+1').bind(key,now+3600000).run();const row=await d.prepare('SELECT count FROM limits WHERE key=?').bind(key).first<{count:number}>();await d.batch([d.prepare('DELETE FROM limits WHERE expires < ?').bind(now),d.prepare('DELETE FROM reports WHERE expires < ?').bind(now)]);return (row?.count||0)<=max;}
+export function json(data:unknown,status=200){return Response.json(data,{status,headers:{'Cache-Control':'no-store','X-Content-Type-Options':'nosniff'}})}
+export async function readBody(req:Request){const text=await req.text();if(text.length>10000)throw Error('Request is too large.');return JSON.parse(text);}
+export function secret(key:string){return ((env as any)[key]||'') as string;}
