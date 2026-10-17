@@ -1,0 +1,2 @@
+import Link from 'next/link';
+export default function Home(){return <main className="region-page"><span className="brand">AstraCore<span className="brand-dot">.</span></span><h1>Good business.<br/>Without borders.</h1><p>Choose your regional experience.</p><div className="actions"><Link className="btn primary" href="/ke/">Kenya / Africa</Link><Link className="btn outline" href="/us/">Global / USA</Link></div></main>}
