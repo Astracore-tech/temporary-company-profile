@@ -52,3 +52,7 @@ Reports use random UUID links and noindex/no-store. They contain no submitted co
 ## Rollback
 
 Keep the previous repository commit and host configuration. Launch in a controlled window with DNS rollback documented. If lead capture or critical routing fails, restore the previous origin while correcting the rebuild. Export and reconcile newly received leads before any database replacement.
+
+## Verified review deployment (17 October 2026)
+
+TypeScript and production build passed. Nine scanner/region unit tests passed. Live KE/US homepages, trial page, sitemap, and robots returned 200. Correct regional phones, 2023, hreflang, and review noindex were observed. Unauthorised admin requests returned 401; incomplete leads and private-IP scans returned 400. An authorised scan of astracoretech.org returned a persisted report and its share page returned 200. PageSpeed was unavailable and was correctly reported as not tested. Browser rendering, successful enquiry CRUD through the signed-in owner UI, and a 90+ mobile score remain unverified.
