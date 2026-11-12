@@ -1,0 +1,36 @@
+# Type-check and build on every push and pull request.
+#
+# This used to deploy a static export to GitHub Pages. The site now needs a
+# server (inquiry form + founder inbox), and astracoretech.org is served by
+# Vercel, so this workflow no longer deploys anything.
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Type-check
+        run: npm run typecheck
+
+      - name: Build
+        run: npm run build

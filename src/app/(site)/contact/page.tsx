@@ -1,8 +1,6 @@
 import React from "react";
-import ContactForm from "@/components/Contact/Form";
-import ContactInfo from "@/components/Contact/ContactInfo";
-import Location from "@/components/Contact/OfficeLocation";
 import HeroSub from "@/components/SharedComponent/HeroSub";
+import InquirySection from "@/components/Inquiry/InquirySection";
 import JsonLd from "@/components/SEO/JsonLd";
 import { pageMetadata } from "@/utils/pageMeta";
 import {
@@ -14,7 +12,7 @@ import {
 export const metadata = pageMetadata({
   title: "Contact",
   description:
-    "Talk to AstraCore Technologies. Offices in Kilimani, Nairobi and Nyali, Mombasa — call 0739 045 698 or email info@astracoretech.org to scope your project.",
+    "Tell AstraCore Technologies what you want to build or fix. Send a short inquiry, email info@astracoretech.org or call 0739 045 698.",
   path: "/contact",
 });
 
@@ -36,12 +34,10 @@ const page = () => (
     />
     <HeroSub
       title="Contact Us"
-      description="Have a project in mind? We'd love to hear from you. Reach out and let's build something great together."
+      description="Describe the problem in your own words. The founder reads every inquiry and replies on the email or phone number you give."
       breadcrumbLinks={breadcrumbLinks}
     />
-    <ContactInfo />
-    <ContactForm />
-    <Location />
+    <InquirySection />
   </>
 );
 

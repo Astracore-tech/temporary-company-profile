@@ -1,7 +1,7 @@
 'use client'
 import React, { useState } from 'react'
 import { Icon } from '@iconify/react'
-import { faqData } from '@/utils/faq'
+import { faqData } from '@/content/site-copy'
 
 const FAQ = () => {
   const [openIndex, setOpenIndex] = useState<number | null>(0)
@@ -19,8 +19,7 @@ const FAQ = () => {
               Questions.
             </h2>
             <p className='ac-body max-w-sm'>
-              Can&apos;t find what you&apos;re looking for? Reach out to our technical team directly
-              for a consultation.
+              Can&apos;t find what you&apos;re looking for? Ask it in the inquiry form below.
             </p>
           </div>
 

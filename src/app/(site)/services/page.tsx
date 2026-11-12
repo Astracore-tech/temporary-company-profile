@@ -1,7 +1,8 @@
 import React from "react";
 import HeroSub from "@/components/SharedComponent/HeroSub";
-import Progresswork from "@/components/Home/WorkProgress";
 import Services from "@/components/Home/Services";
+import HowItWorks from "@/components/Home/HowItWorks";
+import InquirySection from "@/components/Inquiry/InquirySection";
 import JsonLd from "@/components/SEO/JsonLd";
 import { pageMetadata } from "@/utils/pageMeta";
 import {
@@ -13,7 +14,7 @@ import {
 export const metadata = pageMetadata({
   title: "Services",
   description:
-    "Web development, Android & iOS apps, POS and ERP systems, e-commerce, AI bots and brand design — engineered in Nairobi for enterprises across Kenya and East Africa.",
+    "Business websites and portals, custom operational systems, M-Pesa integration and workflow automation — built in Nairobi for businesses in Kenya and abroad.",
   path: "/services",
 });
 
@@ -34,12 +35,13 @@ const page = () => (
       )}
     />
     <HeroSub
-      title="Our Services"
-      description="From blazing-fast websites to intelligent AI bots — we engineer technology that moves your business forward across Kenya and East Africa."
+      title="What We Build"
+      description="Four kinds of work, each aimed at a problem you can describe in plain words. If yours doesn't fit neatly, tell us anyway."
       breadcrumbLinks={breadcrumbLinks}
     />
-    <Services />
-    <Progresswork />
+    <Services detailed />
+    <HowItWorks />
+    <InquirySection />
   </>
 );
 

@@ -9,9 +9,9 @@ export default function robots(): MetadataRoute.Robots {
       {
         userAgent: "*",
         allow: "/",
-        // Not real pages — the app router never serves these, but keeping
-        // crawlers out of them avoids wasted crawl budget on redirects.
-        disallow: ["/api/"],
+        // The founder inbox and the API are private; the inbox also sends
+        // noindex, this just saves crawl budget.
+        disallow: ["/api/", "/inbox/"],
       },
     ],
     sitemap: absoluteUrl("/sitemap.xml"),

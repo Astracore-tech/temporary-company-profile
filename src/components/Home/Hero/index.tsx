@@ -1,5 +1,7 @@
 'use client'
 import Link from 'next/link'
+import { services } from '@/content/services'
+import { PRIMARY_CTA } from '@/content/site-copy'
 
 const CONTACT = [
   { icon: 'ti-map-pin', label: 'Kilimani, Nairobi, Kenya', href: null },
@@ -11,24 +13,6 @@ const SOCIALS = [
   { icon: 'ti-brand-linkedin', label: 'LinkedIn', href: 'https://www.linkedin.com/in/astra-coretech-87105b415' },
   { icon: 'ti-brand-x', label: 'Twitter/X', href: 'https://x.com/AstraCoreTec' },
   { icon: 'ti-brand-instagram', label: 'Instagram', href: 'https://www.instagram.com/astracoretech3' },
-]
-
-const CAPABILITIES = [
-  {
-    icon: 'ti-globe',
-    title: 'Web & Mobile Development',
-    desc: 'High-performance web apps, Android & iOS — M-Pesa integrated, SEO optimized.',
-  },
-  {
-    icon: 'ti-cpu',
-    title: 'Enterprise ERP & Systems',
-    desc: 'Scalable backend architectures, ERP, CRM & data pipelines for large operations.',
-  },
-  {
-    icon: 'ti-robot',
-    title: 'AI Bots & Automation',
-    desc: 'WhatsApp AI bots, RPA workflows and intelligent process automation 24/7.',
-  },
 ]
 
 const Hero = () => {
@@ -99,80 +83,57 @@ const Hero = () => {
 
             {/* Headline */}
             <div data-aos='fade-up' data-aos-duration='800'>
-              <span className='ac-eyebrow mb-7'>Premium IT Solutions · Kenya</span>
+              <span className='ac-eyebrow mb-7'>Software · Nairobi, Kenya</span>
 
               <h1 className='ac-display mt-7 mb-8'>
-                IT&#8209;Solutions
+                Software that fixes
                 <br />
-                For Business.
+                how your business runs.
               </h1>
 
               <p className='ac-lead mb-10'>
-                Enterprise software built in Nairobi for organisations across East Africa —
-                web, mobile, ERP and intelligent automation.
+                We build business websites and portals, custom operational systems, M&#8209;Pesa
+                integrations and workflow automation — for businesses in Kenya and abroad.
               </p>
 
               <div className='flex items-center flex-wrap gap-3'>
-                <Link href='#contact' className='ac-btn ac-btn-primary'>
+                <Link href={PRIMARY_CTA.href} className='ac-btn ac-btn-primary'>
                   <i className='ti ti-send text-sm' />
-                  Get a Quote
+                  {PRIMARY_CTA.label}
                 </Link>
-                <Link href='/portfolio' className='ac-btn ac-btn-ghost'>
-                  <i className='ti ti-briefcase text-sm' />
-                  Our Portfolio
+                <Link href='/services/' className='ac-btn ac-btn-ghost'>
+                  What we build
                 </Link>
-              </div>
-
-              {/* Social proof */}
-              <div className='flex items-center gap-4 mt-12'>
-                <div className='flex -space-x-2.5'>
-                  {['alice', 'bob', 'carol', 'dave'].map((u) => (
-                    <img
-                      key={u}
-                      src={`https://i.pravatar.cc/72?u=${u}-astracore`}
-                      alt=''
-                      aria-hidden='true'
-                      className='w-9 h-9 rounded-full border-2 border-[var(--ac-bg)] object-cover'
-                      style={{ filter: 'saturate(0.6) brightness(0.9)' }}
-                    />
-                  ))}
-                </div>
-                <div>
-                  <div className='flex items-center gap-1 mb-1'>
-                    {[...Array(5)].map((_, i) => (
-                      <i key={i} className='ti ti-star-filled text-[var(--ac-accent)] text-[11px]' />
-                    ))}
-                  </div>
-                  <span className='ac-small'>50+ trusted enterprise clients</span>
-                </div>
               </div>
             </div>
 
-            {/* Capability cards */}
-            <div
+            {/* Service summary */}
+            <ul
               className='hidden lg:flex flex-col gap-px bg-[var(--ac-line)] border border-[var(--ac-line)]'
               data-aos='fade-up'
               data-aos-duration='800'
               data-aos-delay='150'>
-              {CAPABILITIES.map(({ icon, title, desc }) => (
-                <div
-                  key={title}
-                  className='group flex items-start gap-5 p-6 bg-[rgba(14,16,20,0.72)] backdrop-blur-md hover:bg-[rgba(27,31,39,0.82)] transition-colors duration-300'>
-                  <div
-                    className='w-10 h-10 shrink-0 flex items-center justify-center border'
-                    style={{
-                      background: 'var(--ac-accent-dim)',
-                      borderColor: 'var(--ac-accent-line)',
-                    }}>
-                    <i className={`ti ${icon} text-lg text-[var(--ac-accent)]`} />
-                  </div>
-                  <div>
-                    <h2 className='ac-h4 mb-1.5'>{title}</h2>
-                    <p className='ac-small'>{desc}</p>
-                  </div>
-                </div>
+              {services.map(({ id, icon, title, summary }) => (
+                <li key={id}>
+                  <Link
+                    href={`/services/#${id}`}
+                    className='group flex items-start gap-5 p-6 bg-[rgba(14,16,20,0.72)] backdrop-blur-md hover:bg-[rgba(27,31,39,0.82)] transition-colors duration-300'>
+                    <div
+                      className='w-10 h-10 shrink-0 flex items-center justify-center border'
+                      style={{
+                        background: 'var(--ac-accent-dim)',
+                        borderColor: 'var(--ac-accent-line)',
+                      }}>
+                      <i className={`ti ${icon} text-lg text-[var(--ac-accent)]`} />
+                    </div>
+                    <div>
+                      <h2 className='ac-h4 mb-1.5'>{title}</h2>
+                      <p className='ac-small'>{summary}</p>
+                    </div>
+                  </Link>
+                </li>
               ))}
-            </div>
+            </ul>
           </div>
         </div>
       </div>

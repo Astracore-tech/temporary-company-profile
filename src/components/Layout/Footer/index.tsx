@@ -3,6 +3,8 @@ import React, { FC } from 'react'
 import Link from 'next/link'
 import Logo from '../Header/Logo'
 import { Icon } from '@iconify/react'
+import { services } from '@/content/services'
+import { PRIMARY_CTA } from '@/content/site-copy'
 
 const SOCIALS = [
   { icon: 'ph:x-logo-bold', label: 'X (Twitter)', href: 'https://x.com/AstraCoreTec' },
@@ -21,8 +23,6 @@ const SOCIALS = [
 const NAV = [
   { label: 'About', href: '/about' },
   { label: 'Services', href: '/services' },
-  { label: 'Portfolio', href: '/portfolio' },
-  { label: 'Blog', href: '/blog' },
   { label: 'Contact', href: '/contact' },
 ]
 
@@ -37,10 +37,10 @@ const Footer: FC = () => {
             <Logo />
             <div>
               <p className='ac-h2 mb-7' style={{ fontSize: 'clamp(26px, 2.6vw, 34px)' }}>
-                Ready to get started?
+                Have a problem worth solving?
               </p>
-              <Link href='/#contact' className='ac-btn ac-btn-primary'>
-                Get Started →
+              <Link href={PRIMARY_CTA.href} className='ac-btn ac-btn-primary'>
+                {PRIMARY_CTA.label}
               </Link>
             </div>
           </div>
@@ -90,32 +90,22 @@ const Footer: FC = () => {
             </ul>
           </div>
 
-          {/* Newsletter */}
+          {/* Services */}
           <div className='bg-[var(--ac-bg)] px-8 py-12'>
             <p className='text-[var(--ac-ink-3)] text-[10px] font-semibold tracking-[0.26em] uppercase mb-8'>
-              Newsletter
+              What We Build
             </p>
-            <p className='ac-h3 mb-3'>Subscribe newsletter</p>
-            <p className='ac-small mb-7'>
-              Stay updated with the latest in software development, AI, and systems engineering.
-            </p>
-            <form className='flex w-full' onSubmit={(e) => e.preventDefault()}>
-              <label htmlFor='footer-email' className='sr-only'>
-                Email address
-              </label>
-              <input
-                id='footer-email'
-                name='email'
-                type='email'
-                placeholder='Email address'
-                className='flex-1 min-w-0 px-4 py-3 text-xs outline-0 border border-[var(--ac-line)] bg-[var(--ac-surface)] text-[var(--ac-ink)] placeholder:text-[var(--ac-ink-4)] focus:border-[var(--ac-accent)] transition-colors'
-              />
-              <button
-                type='submit'
-                className='px-5 text-xs font-bold bg-[var(--ac-accent)] text-[var(--ac-on-accent)] hover:bg-[#5cf0ff] transition-colors cursor-pointer'>
-                Subscribe
-              </button>
-            </form>
+            <ul className='space-y-4'>
+              {services.map(({ id, title }) => (
+                <li key={id}>
+                  <Link
+                    href={`/services/#${id}`}
+                    className='ac-body hover:text-[var(--ac-accent)] transition-colors'>
+                    {title}
+                  </Link>
+                </li>
+              ))}
+            </ul>
           </div>
         </div>
 

@@ -11,7 +11,7 @@ export const SITE = {
   url: (process.env.NEXT_PUBLIC_SITE_URL || "https://astracoretech.org").replace(/\/$/, ""),
   tagline: "Premium IT Solutions",
   description:
-    "Enterprise software built in Nairobi for East Africa — web platforms, Android & iOS apps, ERP and POS systems, and AI automation.",
+    "Nairobi software company building business websites and portals, custom operational systems, M-Pesa integrations and workflow automation — for businesses in Kenya and abroad.",
   locale: "en_KE",
   language: "en",
   founded: "2017",
@@ -42,16 +42,6 @@ export const SITE = {
   ogImageHeight: 630,
 
   areaServed: ["Kenya", "East Africa"],
-  services: [
-    "Web Development",
-    "Android & iOS Apps",
-    "POS Systems",
-    "E-Commerce Platforms",
-    "Enterprise Systems / ERP",
-    "AI Bots & Automation",
-    "Brand Identity & Design",
-    "Cybersecurity",
-  ],
 } as const
 
 export const absoluteUrl = (path = "/") =>

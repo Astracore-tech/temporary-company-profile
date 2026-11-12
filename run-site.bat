@@ -8,7 +8,7 @@ echo           ASTRACORE TECHNOLOGIES - SILICON SAVANNAH SUITE
 echo ======================================================================
 echo.
 echo [1] Launch Development Server (Hot Reload / Fast Iteration)
-echo [2] Compile and Export Static Website (Production Build)
+echo [2] Build and Start Production Preview (http://localhost:3000)
 echo [3] Install Project Dependencies (npm install)
 echo [4] Exit
 echo.
@@ -32,12 +32,12 @@ goto exit
 
 :build
 cls
-echo Compiling and exporting production-ready static bundle...
-echo This generates optimized HTML, CSS and JS in the "out" folder.
+echo Building the production app, then starting it...
+echo Needs a .env.local - see README.md and .env.example.
 echo ======================================================================
 npm run build
 echo.
-echo Build complete. Files are ready inside the "out" directory.
+npm start
 pause
 goto exit
 

@@ -6,6 +6,7 @@ import MobileHeaderLink from '../Header/Navigation/MobileHeaderLink'
 import { Icon } from '@iconify/react/dist/iconify.js'
 import Logo from './Logo'
 import HeaderLink from '../Header/Navigation/HeaderLink'
+import { PRIMARY_CTA } from '@/content/site-copy'
 
 const Header: React.FC = () => {
   const [navbarOpen, setNavbarOpen] = useState(false)
@@ -43,9 +44,9 @@ const Header: React.FC = () => {
 
         <div className='flex items-center gap-3'>
           <Link
-            href='/contact'
+            href={PRIMARY_CTA.href}
             className='hidden lg:inline-flex items-center gap-2 px-6 py-2.5 text-[10px] tracking-[0.2em] uppercase font-bold bg-[var(--ac-accent)] text-[var(--ac-on-accent)] hover:bg-[#5cf0ff] transition-colors'>
-            Get a Quote
+            {PRIMARY_CTA.label}
           </Link>
 
           <button
@@ -92,10 +93,10 @@ const Header: React.FC = () => {
             <MobileHeaderLink key={item.href + item.label} item={item} />
           ))}
           <Link
-            href='/contact'
+            href={PRIMARY_CTA.href}
             onClick={() => setNavbarOpen(false)}
             className='ac-btn ac-btn-primary w-full mt-6'>
-            Get a Quote
+            {PRIMARY_CTA.label}
           </Link>
         </nav>
       </div>

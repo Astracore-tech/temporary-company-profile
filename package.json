@@ -5,13 +5,17 @@
     "scripts": {
         "dev": "next dev",
         "build": "next build",
-        "export": "next build",
         "start": "next start",
-        "lint": "next lint"
+        "lint": "next lint",
+        "typecheck": "tsc --noEmit",
+        "staff:add": "node --env-file-if-exists=.env.local scripts/add-staff.mjs add",
+        "staff:remove": "node --env-file-if-exists=.env.local scripts/add-staff.mjs remove",
+        "verify:journey": "node scripts/verify-journey.mjs"
     },
     "dependencies": {
         "@iconify/icons-ion": "^1.2.10",
         "@iconify/react": "^5.0.1",
+        "@libsql/client": "^0.15.15",
         "aos": "^2.3.4",
         "axios": "^1.7.2",
         "date-fns": "^3.4.0",
@@ -39,5 +43,8 @@
         "postcss": "^8",
         "tailwindcss": "^4.0.0",
         "typescript": "^5"
+    },
+    "engines": {
+        "node": ">=22.9"
     }
 }

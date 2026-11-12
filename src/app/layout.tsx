@@ -1,14 +1,8 @@
 import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import Header from "@/components/Layout/Header";
-import Footer from "@/components/Layout/Footer";
 import { ThemeProvider } from "next-themes";
-import ScrollToTop from "@/components/ScrollToTop";
-import Aoscompo from "@/utils/aos";
 import NextTopLoader from "nextjs-toploader";
-import SessionProviderComp from "@/components/nextauth/SessionProvider";
-import { AuthDialogProvider } from "./context/AuthDialogContext";
 import { SITE, absoluteUrl } from "@/utils/site";
 import {
   jsonLdGraph,
@@ -33,13 +27,13 @@ export const metadata: Metadata = {
   keywords: [
     "software development Kenya",
     "IT company Nairobi",
-    "ERP systems Kenya",
-    "POS systems Nairobi",
-    "mobile app developers Kenya",
+    "business website Kenya",
+    "customer portal development",
+    "custom business systems Kenya",
     "M-Pesa integration",
-    "AI automation Africa",
+    "M-Pesa STK Push integration",
+    "workflow automation Kenya",
     "web development Nairobi",
-    "enterprise software East Africa",
   ],
   authors: [{ name: SITE.name, url: SITE.url }],
   creator: SITE.name,
@@ -58,7 +52,7 @@ export const metadata: Metadata = {
         url: SITE.ogImage,
         width: SITE.ogImageWidth,
         height: SITE.ogImageHeight,
-        alt: `${SITE.name} — enterprise software built in Nairobi`,
+        alt: `${SITE.name} — software built in Nairobi`,
       },
     ],
   },
@@ -126,25 +120,11 @@ export default function RootLayout({
         />
       </head>
       <body className={inter.className}>
-        <a
-          href="#main-content"
-          className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:px-5 focus:py-3 focus:bg-[var(--ac-accent)] focus:text-[var(--ac-on-accent)] focus:font-bold focus:text-sm"
-        >
-          Skip to content
-        </a>
         <NextTopLoader color="#00E5FF" showSpinner={false} />
-        <AuthDialogProvider>
-          <SessionProviderComp session={null}>
-            <ThemeProvider attribute="class" enableSystem={false} defaultTheme="dark">
-              <Aoscompo>
-                <Header />
-                <div id="main-content">{children}</div>
-                <Footer />
-              </Aoscompo>
-              <ScrollToTop />
-            </ThemeProvider>
-          </SessionProviderComp>
-        </AuthDialogProvider>
+        {/* Public chrome lives in (site)/layout.tsx; the founder inbox has its own. */}
+        <ThemeProvider attribute="class" enableSystem={false} defaultTheme="dark">
+          {children}
+        </ThemeProvider>
       </body>
     </html>
   );
