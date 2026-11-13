@@ -14,9 +14,10 @@ const MobileHeaderLink: React.FC<{ item: HeaderItem }> = ({ item }) => {
   };
 
   const path = usePathname();
-  const isActive = path === item.href || 
-    (path.startsWith("/blog") && item.href === "/blog") || 
-    (path.startsWith("/portfolio") && item.href === "/portfolio");
+  // trailingSlash is on, so the path may be "/services/" — compare without it.
+  const current = path.replace(/\/$/, "") || "/";
+  const isActive =
+    current === item.href || (item.href !== "/" && current.startsWith(`${item.href}/`));
 
   return (
     <div className="relative block w-full border-b border-[var(--ac-line)]">

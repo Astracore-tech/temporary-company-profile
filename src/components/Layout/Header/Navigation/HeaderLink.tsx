@@ -8,10 +8,10 @@ const HeaderLink: React.FC<{ item: HeaderItem }> = ({ item }) => {
   const [submenuOpen, setSubmenuOpen] = useState(false)
   const path = usePathname()
 
+  // trailingSlash is on, so the path may be "/services/" — compare without it.
+  const current = path.replace(/\/$/, '') || '/'
   const isActive =
-    path === item.href ||
-    (path.startsWith('/blog') && item.href === '/blog') ||
-    (path.startsWith('/portfolio') && item.href === '/portfolio')
+    current === item.href || (item.href !== '/' && current.startsWith(`${item.href}/`))
 
   return (
     <div

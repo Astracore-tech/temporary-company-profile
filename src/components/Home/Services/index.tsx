@@ -2,6 +2,7 @@ import React from 'react'
 import Link from 'next/link'
 import { services } from '@/content/services'
 import { PRIMARY_CTA } from '@/content/site-copy'
+import { projectsForService } from '@/content/portfolio'
 import SectionHeading from '@/components/SharedComponent/SectionHeading'
 
 /**
@@ -62,6 +63,19 @@ const Services = ({ detailed = false }: { detailed?: boolean }) => (
                     </li>
                   ))}
                 </ul>
+                {projectsForService(s.id).length > 0 && (
+                  <p className='ac-small mt-auto pt-6'>
+                    See it in our work:{' '}
+                    {projectsForService(s.id).map((p, j) => (
+                      <React.Fragment key={p.slug}>
+                        {j > 0 && ', '}
+                        <Link href={`/portfolio/${p.slug}/`} className='ac-link'>
+                          {p.name}
+                        </Link>
+                      </React.Fragment>
+                    ))}
+                  </p>
+                )}
               </>
             ) : (
               <>

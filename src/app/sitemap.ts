@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next"
 import { absoluteUrl } from "@/utils/site"
+import { projects } from "@/content/portfolio"
 
 // Fixed at build time; the public pages are all static.
 export const dynamic = "force-static"
@@ -14,6 +15,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
   return [
     { path: "/", priority: 1.0, changeFrequency: "weekly" as const },
     { path: "/services", priority: 0.9, changeFrequency: "monthly" as const },
+    { path: "/portfolio", priority: 0.8, changeFrequency: "monthly" as const },
+    ...projects.map((p) => ({
+      path: `/portfolio/${p.slug}`,
+      priority: 0.6,
+      changeFrequency: "monthly" as const,
+    })),
     { path: "/about", priority: 0.7, changeFrequency: "monthly" as const },
     { path: "/contact", priority: 0.8, changeFrequency: "yearly" as const },
   ].map(({ path, priority, changeFrequency }) => ({

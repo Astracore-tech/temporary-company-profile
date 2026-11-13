@@ -75,7 +75,7 @@ const localDate = (offsetDays = 0) => {
 
 // ── 1. Public pages and preserved links ──────────────────────────────────
 console.log(`\nVerifying ${BASE} (run ${run})\n`)
-for (const p of ['/', '/services/', '/about/', '/contact/', '/sitemap.xml', '/robots.txt']) {
+for (const p of ['/', '/services/', '/portfolio/', '/about/', '/contact/', '/sitemap.xml', '/robots.txt']) {
   const r = await http(p)
   check(`GET ${p} → 200`, r.status === 200, `got ${r.status}`)
 }
@@ -89,9 +89,20 @@ for (const p of ['/', '/services/', '/about/', '/contact/', '/sitemap.xml', '/ro
   const robots = await http('/robots.txt')
   check('robots.txt disallows /inbox/', robots.text.includes('Disallow: /inbox/'))
 }
+{
+  const list = await http('/portfolio/')
+  check('Portfolio page loads and lists real work', list.status === 200 && list.text.includes('AstraCore OS') && list.text.includes('/portfolio/inquiry-inbox/'), `${list.status}`)
+  check('Portfolio has none of the old fictional case studies', !/CozyCasa|Mars Fintech|Nebula Holdings|Panda Logo/i.test(list.text))
+  const detail = await http('/portfolio/skillpath-academy/')
+  check('Unfinished project is labelled as in development', detail.status === 200 && detail.text.includes('In development') && detail.text.includes('Designed, not yet built'))
+  const missing = await http('/portfolio/not-a-project/')
+  check('Unknown portfolio slug is a 404', missing.status === 404, `${missing.status}`)
+  const sitemap = await http('/sitemap.xml')
+  check('Sitemap lists the portfolio pages', sitemap.text.includes('/portfolio/astracore-os/'))
+}
 for (const [from, to] of [
-  ['/portfolio/', '/services/'],
-  ['/portfolio/cozycasa/', '/services/'],
+  ['/portfolio/cozycasa/', '/portfolio/'],
+  ['/portfolio/mars-fintech/', '/portfolio/'],
   ['/blog/', '/'],
   ['/blog/Blog_1/', '/'],
 ]) {

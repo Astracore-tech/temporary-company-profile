@@ -23,6 +23,7 @@ const SOCIALS = [
 const NAV = [
   { label: 'About', href: '/about' },
   { label: 'Services', href: '/services' },
+  { label: 'Our Work', href: '/portfolio' },
   { label: 'Contact', href: '/contact' },
 ]
 

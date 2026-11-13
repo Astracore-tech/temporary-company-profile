@@ -9,14 +9,27 @@
 // for a deployment at the site root, so it has been removed.
 
 /**
- * Retired public routes. These pages held template content (fictional client
- * case studies and Lorem Ipsum posts) that could not stay live for a company
- * with no client work to show yet. Each old URL lands on the closest real page.
+ * Slugs of the template's fictional case studies. /portfolio/ now shows real
+ * work, so each old URL goes to the list. They are listed one by one: a
+ * `/portfolio/:slug/` wildcard would also catch the real project pages,
+ * because redirects run before the filesystem routes.
+ */
+const RETIRED_PORTFOLIO_SLUGS = [
+  "apex-middleware", "apps-built-for-africa", "automation-redefined", "bots-that-work",
+  "cozycasa", "fusion-dynamics", "innovatex-ventures", "mars-fintech", "nebula-holdings",
+  "panda-logo", "rocket-squared", "systems-that-scale", "websites-that-convert",
+];
+
+/**
+ * Retired public routes: template content (fictional case studies and Lorem
+ * Ipsum posts). Each old URL lands on the closest real page.
  * See README.md › "Redirects".
  */
 const RETIRED_ROUTES = [
-  { source: "/portfolio/", destination: "/services/" },
-  { source: "/portfolio/:slug/", destination: "/services/" },
+  ...RETIRED_PORTFOLIO_SLUGS.map((slug) => ({
+    source: `/portfolio/${slug}/`,
+    destination: "/portfolio/",
+  })),
   { source: "/blog/", destination: "/" },
   { source: "/blog/:slug/", destination: "/" },
 ];

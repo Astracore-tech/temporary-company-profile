@@ -1,5 +1,6 @@
 import { SITE, absoluteUrl, sameAs } from "./site"
 import { services } from "@/content/services"
+import { projects, type Project } from "@/content/portfolio"
 
 /** The company itself — the anchor entity every other node points back to. */
 export const organizationSchema = () => ({
@@ -80,7 +81,31 @@ export const serviceCatalogSchema = () => ({
   })),
 })
 
-export const breadcrumbSchema = (crumbs: { name: string; path: string }[]) => ({
+/** One portfolio entry. Deliberately no ratings, clients or dates we can't vouch for. */
+export const projectSchema = (p: Project) => ({
+  "@type": "CreativeWork",
+  "@id": absoluteUrl(`/portfolio/${p.slug}/#work`),
+  name: p.name,
+  description: p.summary,
+  url: absoluteUrl(`/portfolio/${p.slug}/`),
+  genre: p.kind,
+  keywords: p.stack.join(", "),
+  creator: { "@id": absoluteUrl("/#organization") },
+  creativeWorkStatus: p.status === "in-development" ? "Incomplete" : "Published",
+})
+
+export const portfolioListSchema = () => ({
+  "@type": "ItemList",
+  "@id": absoluteUrl("/portfolio/#list"),
+  itemListElement: projects.map((p, i) => ({
+    "@type": "ListItem",
+    position: i + 1,
+    url: absoluteUrl(`/portfolio/${p.slug}/`),
+    name: p.name,
+  })),
+})
+
+export const breadcrumbSchema =(crumbs: { name: string; path: string }[]) => ({
   "@type": "BreadcrumbList",
   itemListElement: crumbs.map((c, i) => ({
     "@type": "ListItem",

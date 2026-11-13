@@ -4,7 +4,7 @@ The public site for astracoretech.org, plus a private inbox where the founder
 follows up inquiries and tracks each opportunity through to first payment and
 onboarding.
 
-Built with Next.js 15 (App Router), next-auth and libsql. It was originally a
+Built with Next.js 16 (App Router), React 19, next-auth and libsql. It was originally a
 static export of the Venus Next.js template. It now runs as a Next.js server
 app, because the inquiry form and inbox need server routes.
 
@@ -22,7 +22,8 @@ npm run dev                     # http://localhost:3000
 For a production-like preview, use `npm run build && npm start -- -p 3100` and
 set `NEXTAUTH_URL=http://localhost:3100`.
 
-- Public site: `/`, `/services/`, `/about/`, `/contact/`
+- Public site: `/`, `/services/`, `/portfolio/` (and one page per project),
+  `/about/`, `/contact/`
 - Founder inbox: `/inbox/` (sign in at `/inbox/sign-in/`)
 
 Local data lives in `.data/` (git-ignored). Use synthetic records only.
@@ -57,6 +58,7 @@ The script refuses to run against astracoretech.org.
 | What | Where |
 | --- | --- |
 | Service descriptions shown on the site | `src/content/services.ts` |
+| Portfolio projects (`/portfolio/`) | `src/content/portfolio.ts` |
 | Call to action, "how it works", FAQ | `src/content/site-copy.ts` |
 | Pipeline stages and sources | `src/lib/pipeline.ts` |
 | Inquiry storage and rules | `src/server/inquiries.ts` |
@@ -68,6 +70,12 @@ The script refuses to run against astracoretech.org.
 You can edit the public copy without touching the workflow code. The workflow
 reads only each service's `id` and `title`, for the optional "closest service"
 field. Don't rename an `id` once inquiries reference it.
+
+The portfolio lists only AstraCore's own work, each entry with an honest
+`status`. Unfinished scope goes in `planned`, never in `built`, and unfinished
+projects are left out of the "see it in our work" links on `/services/`. Don't
+add client names, figures or screenshots of real data without the founder's
+approval. A project's `slug` is its URL, so don't rename it once published.
 
 ## Staff accounts
 
@@ -99,10 +107,13 @@ Ipsum blog posts. They now redirect permanently (308), configured in
 
 | Old URL | Now goes to |
 | --- | --- |
-| `/portfolio/` | `/services/` |
-| `/portfolio/<slug>/` | `/services/` |
+| `/portfolio/<old case-study slug>/` (13 slugs, e.g. `cozycasa`) | `/portfolio/` |
 | `/blog/` | `/` |
 | `/blog/<slug>/` | `/` |
+
+`/portfolio/` itself is live again, now showing real work. The old case-study
+slugs are listed one by one, because a wildcard would also redirect the new
+project pages. Any other unknown `/portfolio/<slug>/` returns 404.
 
 `/#contact` still works, because the home page's inquiry section keeps that
 id. `/contact/#inquiry` is the target of the primary call to action.

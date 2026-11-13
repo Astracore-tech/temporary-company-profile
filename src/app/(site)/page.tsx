@@ -3,6 +3,7 @@ import type { Metadata } from 'next'
 import Hero from '@/components/Home/Hero'
 import Services from '@/components/Home/Services'
 import HowItWorks from '@/components/Home/HowItWorks'
+import WorkSection from '@/components/Portfolio'
 import FAQ from '@/components/Home/FAQ'
 import InquirySection from '@/components/Inquiry/InquirySection'
 import JsonLd from '@/components/SEO/JsonLd'
@@ -47,6 +48,7 @@ export default function Home() {
       <main>
         <Hero />
         <Services />
+        <WorkSection compact />
         <HowItWorks />
         <FAQ />
         {/* id="contact" keeps existing /#contact links working */}
