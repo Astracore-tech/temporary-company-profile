@@ -1,105 +1,67 @@
 'use client'
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 import { useEffect, useState } from 'react'
-import { headerData } from '../Header/Navigation/menuData'
-import MobileHeaderLink from '../Header/Navigation/MobileHeaderLink'
-import { Icon } from '@iconify/react/dist/iconify.js'
+import { headerData } from './Navigation/menuData'
+import HeaderLink from './Navigation/HeaderLink'
+import MobileHeaderLink from './Navigation/MobileHeaderLink'
 import Logo from './Logo'
-import HeaderLink from '../Header/Navigation/HeaderLink'
 import { PRIMARY_CTA } from '@/content/site-copy'
 
 const Header: React.FC = () => {
-  const [navbarOpen, setNavbarOpen] = useState(false)
-  const [sticky, setSticky] = useState(false)
+  const [open, setOpen] = useState(false)
+  const path = usePathname()
 
-  useEffect(() => {
-    const handleScroll = () => setSticky(window.scrollY >= 80)
-    handleScroll()
-    window.addEventListener('scroll', handleScroll, { passive: true })
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
-
-  useEffect(() => {
-    document.body.style.overflow = navbarOpen ? 'hidden' : ''
-    return () => {
-      document.body.style.overflow = ''
-    }
-  }, [navbarOpen])
+  // Close the menu whenever the route changes.
+  useEffect(() => setOpen(false), [path])
 
   return (
-    <header
-      className={`fixed top-0 z-50 w-full border-b border-[var(--ac-line)] transition-[height,background-color] duration-300 ${
-        sticky
-          ? 'h-16 bg-[rgba(8,9,12,0.88)] backdrop-blur-xl'
-          : 'h-20 bg-[var(--ac-bg)]'
-      }`}>
-      <div className='ac-container flex items-center justify-between h-full'>
+    <header className='sticky top-0 z-50 bg-[var(--ac-bg)]/95 backdrop-blur-sm border-b border-[var(--ac-line)]'>
+      <div className='ac-container flex items-center justify-between h-16'>
         <Logo />
 
-        <nav className='hidden lg:flex items-center'>
+        <nav aria-label='Main' className='hidden md:flex items-center gap-1'>
           {headerData.map((item) => (
-            <HeaderLink key={item.href + item.label} item={item} />
+            <HeaderLink key={item.href} item={item} />
           ))}
         </nav>
 
-        <div className='flex items-center gap-3'>
+        <div className='flex items-center gap-2'>
           <Link
             href={PRIMARY_CTA.href}
-            className='hidden lg:inline-flex items-center gap-2 px-6 py-2.5 text-[10px] tracking-[0.2em] uppercase font-bold bg-[var(--ac-accent)] text-[var(--ac-on-accent)] hover:bg-[#5cf0ff] transition-colors'>
+            className='hidden md:inline-flex ac-btn ac-btn-primary !min-h-0 !py-2.5 !px-4 !text-sm'>
             {PRIMARY_CTA.label}
           </Link>
-
           <button
             type='button'
-            onClick={() => setNavbarOpen(!navbarOpen)}
-            className='lg:hidden flex flex-col gap-1.5 p-2 cursor-pointer'
-            aria-expanded={navbarOpen}
-            aria-label='Toggle navigation menu'>
-            <span className='block w-6 h-px bg-[var(--ac-ink)]' />
-            <span className='block w-6 h-px bg-[var(--ac-ink)]' />
-            <span className='block w-4 h-px bg-[var(--ac-ink)]' />
+            onClick={() => setOpen((o) => !o)}
+            className='md:hidden inline-flex items-center gap-2 h-10 px-3 -mr-3 text-[15px] font-medium text-[var(--ac-ink)]'
+            aria-expanded={open}
+            aria-controls='mobile-menu'>
+            {open ? 'Close' : 'Menu'}
+            <svg width='16' height='16' viewBox='0 0 16 16' aria-hidden='true' className='shrink-0'>
+              {open ? (
+                <path d='M3.5 3.5l9 9m0-9l-9 9' stroke='currentColor' strokeWidth='1.5' strokeLinecap='round' />
+              ) : (
+                <path d='M2 5h12M2 11h12' stroke='currentColor' strokeWidth='1.5' strokeLinecap='round' />
+              )}
+            </svg>
           </button>
         </div>
       </div>
 
-      {navbarOpen && (
-        <div
-          className='fixed inset-0 bg-black/70 z-40 lg:hidden'
-          onClick={() => setNavbarOpen(false)}
-          aria-hidden='true'
-        />
+      {open && (
+        <div id='mobile-menu' className='md:hidden border-t border-[var(--ac-line)] bg-[var(--ac-bg)]'>
+          <nav aria-label='Main' className='ac-container py-3 flex flex-col'>
+            {headerData.map((item) => (
+              <MobileHeaderLink key={item.href} item={item} />
+            ))}
+            <Link href={PRIMARY_CTA.href} className='ac-btn ac-btn-primary w-full mt-4 mb-2'>
+              {PRIMARY_CTA.label}
+            </Link>
+          </nav>
+        </div>
       )}
-
-      <div
-        className={`lg:hidden fixed top-0 right-0 h-full w-[290px] bg-[var(--ac-surface)] border-l border-[var(--ac-line)] transform transition-transform duration-300 z-50 ${
-          navbarOpen ? 'translate-x-0' : 'translate-x-full'
-        }`}>
-        <div className='flex items-center justify-between px-6 h-20 border-b border-[var(--ac-line)]'>
-          <span className='ac-h4'>Menu</span>
-          <button
-            type='button'
-            onClick={() => setNavbarOpen(false)}
-            aria-label='Close menu'
-            className='cursor-pointer'>
-            <Icon
-              icon='ic:round-close'
-              className='text-[var(--ac-ink-3)] text-2xl hover:text-[var(--ac-ink)] transition-colors'
-            />
-          </button>
-        </div>
-
-        <nav className='flex flex-col p-6 gap-1'>
-          {headerData.map((item) => (
-            <MobileHeaderLink key={item.href + item.label} item={item} />
-          ))}
-          <Link
-            href={PRIMARY_CTA.href}
-            onClick={() => setNavbarOpen(false)}
-            className='ac-btn ac-btn-primary w-full mt-6'>
-            {PRIMARY_CTA.label}
-          </Link>
-        </nav>
-      </div>
     </header>
   )
 }

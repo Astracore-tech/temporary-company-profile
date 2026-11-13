@@ -59,7 +59,7 @@ async function http(path, { method = 'GET', json, form, cookies = false, headers
   try {
     data = JSON.parse(text)
   } catch {}
-  return { status: res.status, location: res.headers.get('location') || '', text, data }
+  return { status: res.status, location: res.headers.get('location') || '', text, data, headers: res.headers }
 }
 
 /** The HTML of one inbox section, found by its data-section attribute. */
@@ -81,7 +81,14 @@ for (const p of ['/', '/services/', '/portfolio/', '/about/', '/contact/', '/pri
 }
 {
   const home = await http('/')
-  check('Home shows the primary call to action', home.text.includes('Tell us what you want to build or fix'))
+  check('Home leads with the agreed headline', home.text.includes('Custom software for the way your business works'))
+  {
+    // The opening offers exactly two actions.
+    const hero = home.text.slice(home.text.indexOf('<h1'), home.text.indexOf('</section>', home.text.indexOf('<h1')))
+    const actions = [...hero.matchAll(/<a [^>]*>([^<]+)<\/a>/g)].map((m) => m[1].trim())
+    check('Home opening offers only "Discuss your project" and "View our work"', JSON.stringify(actions) === JSON.stringify(['Discuss your project', 'View our work']), JSON.stringify(actions))
+  }
+  check('No third-party font or icon requests', !/fonts\.googleapis|fonts\.gstatic|cdn\.jsdelivr/.test(home.text))
   check('Home keeps the #contact anchor', home.text.includes('id="contact"'))
   check('Home has no invented social proof', !/50\+ trusted|pravatar|Dr\. Joseph Kiprop/.test(home.text))
   const contact = await http('/contact/')
@@ -96,6 +103,20 @@ for (const p of ['/', '/services/', '/portfolio/', '/about/', '/contact/', '/pri
   const list = await http('/portfolio/')
   check('Portfolio page loads and lists real work', list.status === 200 && list.text.includes('AstraCore OS') && list.text.includes('/portfolio/inquiry-inbox/'), `${list.status}`)
   check('Portfolio has none of the old fictional case studies', !/CozyCasa|Mars Fintech|Nebula Holdings|Panda Logo/i.test(list.text))
+  {
+    // The case study a buyer is sent: what it is, up front; real screens labelled as demo data; ends on one action.
+    const os = await http('/portfolio/astracore-os/')
+    const top = os.text.slice(os.text.indexOf('<h1'), os.text.indexOf('<figure'))
+    check('Invoicing case study says up front it is our own tool with auto-numbered invoices and a finance summary', os.status === 200 && /our own internal tool/i.test(top) && /numbers every invoice automatically/.test(top) && /finance summary/.test(top))
+    check('Case study screenshots are captioned as demo data', /made-up demo data/.test(os.text) && /astracore-os-invoices\.webp/.test(os.text))
+    const img = await http('/images/work/astracore-os-invoices.webp')
+    check('Case study screenshot is served', img.status === 200)
+    const main = os.text.slice(os.text.indexOf('id="main-content"'), os.text.indexOf('<footer'))
+    const links = [...main.matchAll(/<a [^>]*href="([^"]+)"[^>]*>([^<]+)<\/a>/g)]
+    const last = links.at(-1)
+    check('Case study ends with "Discuss your invoicing workflow" linked to the form', last?.[2].trim() === 'Discuss your invoicing workflow' && last?.[1] === '/contact/#inquiry', JSON.stringify(last?.slice(1)))
+    check('Case study link preview uses the real screenshot', /<meta property="og:image" content="[^"]*astracore-os-invoices\.webp"/.test(os.text))
+  }
   const detail = await http('/portfolio/skillpath-academy/')
   check('Unfinished project is labelled as in development', detail.status === 200 && detail.text.includes('In development') && detail.text.includes('Designed, not yet built'))
   const missing = await http('/portfolio/not-a-project/')
@@ -123,6 +144,14 @@ for (const [from, to] of [
   check('Honeypot submission rejected', bot.status === 400)
   const xsite = await http('/api/inquiries/', { method: 'POST', json: {}, headers: { origin: 'https://evil.example' } })
   check('Cross-site post rejected', xsite.status === 403)
+  // A browser sends `Origin: null` under a no-referrer policy. It must pass only
+  // when the browser itself says the request is same-site.
+  const nullOrigin = await http('/api/inquiries/', { method: 'POST', json: {}, headers: { origin: 'null' } })
+  check('Post with Origin: null and no same-site proof rejected', nullOrigin.status === 403, `${nullOrigin.status}`)
+  const nullSameSite = await http('/api/inquiries/', { method: 'POST', json: {}, headers: { origin: 'null', 'sec-fetch-site': 'same-origin' } })
+  check('Post with Origin: null that the browser marks same-site is accepted', nullSameSite.status === 400 && nullSameSite.data?.fieldErrors, `${nullSameSite.status}`)
+  const inboxHeaders = (await http('/inbox/sign-in/')).headers
+  check('Inbox referrer policy lets the browser send its origin on inbox forms', inboxHeaders.get('referrer-policy') === 'same-origin', inboxHeaders.get('referrer-policy'))
   const huge = await http('/api/inquiries/', { method: 'POST', json: { name: 'x', replyTo: 'a@b.co', problem: 'y'.repeat(20000) } })
   check('Oversized body rejected', huge.status === 400)
 }

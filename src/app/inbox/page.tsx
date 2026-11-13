@@ -35,7 +35,7 @@ function Row({ inquiry: i, todayIso }: { inquiry: Inquiry; todayIso: string }) {
         </div>
         <div className='ac-small min-w-0'>
           {i.nextAction ? (
-            <span className={overdue ? 'text-[#ff8a8a]' : ''}>
+            <span className={overdue ? 'text-[var(--ac-danger)]' : ''}>
               {overdue ? 'Overdue · ' : ''}
               {formatDate(i.nextActionDue!)} — {i.nextAction}
             </span>
@@ -66,7 +66,7 @@ function Section({
 }) {
   if (!items.length && !empty) return null
   const color =
-    tone === 'alert' ? 'text-[#ff8a8a]' : tone === 'warn' ? 'text-[var(--ac-warn)]' : tone === 'accent' ? 'text-[var(--ac-accent)]' : 'text-[var(--ac-ink)]'
+    tone === 'alert' ? 'text-[var(--ac-danger)]' : tone === 'warn' ? 'text-[var(--ac-warn)]' : tone === 'accent' ? 'text-[var(--ac-accent)]' : 'text-[var(--ac-ink)]'
   return (
     <section className='ac-flush mb-10' aria-labelledby={`h-${slug}`} data-section={slug}>
       <h2 id={`h-${slug}`} className={`ac-h4 mb-3 ${color}`}>

@@ -33,14 +33,25 @@ Local data lives in `.data/` (git-ignored). Use synthetic records only.
 ```bash
 npm run typecheck
 npm run build
-# Against a running preview, with a preview staff account. It creates synthetic inquiries.
+# Against a running preview, with a preview staff account. Both create synthetic inquiries.
 BASE_URL=http://localhost:3100 STAFF_EMAIL=... STAFF_PASSWORD=... npm run verify:journey
+BASE_URL=http://localhost:3100 STAFF_EMAIL=... STAFF_PASSWORD=... npm run verify:phone
 ```
+
+`verify:phone` runs the three phone checks in a real Chrome at phone size
+(390×844). It submits an inquiry from the phone, confirms an anonymous visitor
+can't reach the inbox or its API, then signs in, accepts that inquiry and
+records its first payment through the inbox screens. It needs Chrome installed;
+set `CHROME_PATH` if it isn't in the standard place.
 
 `verify:journey` goes through the same HTTP entry points a browser uses. It
 checks:
 
 - the public pages, the retired-route redirects, and server-side validation;
+- the home page's headline and its two actions, and that no third-party font
+  or icon service is loaded;
+- that the invoicing case study states up front what AstraCore OS is, labels
+  its screenshots as demo data, and ends on "Discuss your invoicing workflow";
 - that the honeypot and the cross-site and size limits reject bad posts;
 - that a double-click or retry saves one record only;
 - that anonymous visitors are refused;
@@ -52,6 +63,30 @@ checks:
   content.
 
 The script refuses to run against astracoretech.org.
+
+## Design
+
+- **Colours:** warm white (`#faf8f4`), near-black ink (`#17160f`) and one deep
+  teal accent (`#0b5e57`), defined once as `--ac-*` variables in
+  `src/app/globals.css`. The founder inbox uses the same classes.
+- **Font:** Instrument Sans. `next/font` downloads it at build time and the
+  site serves it itself, so visitors' browsers never contact Google.
+- **Imagery:** none is decorative. No gradients, stock photos or generic
+  illustrations; the only pictures are real screenshots of our own software.
+- **Brand mark:** the "AstraCore Technologies" text wordmark
+  (`src/components/Layout/Header/Logo`), plus a teal "A" for the browser icons
+  and a matching share image. These are **placeholders**. The icon at
+  `public/images/logo/logo-icon.png` has never been confirmed as approved, so
+  it isn't used. Replace both once official artwork exists.
+
+### Case-study screenshots
+
+The AstraCore OS images in `public/images/work/` are the real AstraCore OS
+screens. They were run locally against a stand-in API that served only made-up
+demo records, and the browser blocked every request to `astracoretech.org`
+while they were captured. No real client or financial data was involved. To
+retake them, use the same approach. Never photograph the live system. Keep
+the captions saying the data is demo data.
 
 ## Where things live
 

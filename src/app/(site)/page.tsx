@@ -45,15 +45,14 @@ export default function Home() {
   return (
     <>
       <JsonLd data={jsonLdGraph(faqSchema(faqData))} />
-      <main>
-        <Hero />
-        <Services />
-        <WorkSection compact />
-        <HowItWorks />
-        <FAQ />
-        {/* id="contact" keeps existing /#contact links working */}
-        <InquirySection id='contact' />
-      </main>
+      <Hero />
+      {/* Evidence before claims: the work comes straight after the opening. */}
+      <WorkSection compact />
+      <Services />
+      <HowItWorks />
+      <FAQ />
+      {/* id="contact" keeps existing /#contact links working */}
+      <InquirySection id='contact' />
     </>
   )
 }

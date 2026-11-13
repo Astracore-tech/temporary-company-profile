@@ -11,8 +11,6 @@ export type Service = {
   /** Stable key stored with an inquiry. Do not rename once live. */
   id: string
   title: string
-  /** Tabler icon class, e.g. `ti-world` */
-  icon: string
   /** One line for cards. */
   summary: string
   /** The situation a buyer recognises themselves in. */
@@ -27,7 +25,6 @@ export const services: Service[] = [
   {
     id: 'websites-portals',
     title: 'Business websites & portals',
-    icon: 'ti-world',
     summary: 'A site that explains what you do, and portals where customers or staff log in to get things done.',
     problem:
       'Customers ask the same questions on the phone every day, your website is out of date or hard to update, and anything a client needs from you — a quote, a document, an order status — means someone has to reply by hand.',
@@ -42,7 +39,6 @@ export const services: Service[] = [
   {
     id: 'operational-systems',
     title: 'Custom operational systems',
-    icon: 'ti-layout-dashboard',
     summary: 'Replace the spreadsheets, notebooks and WhatsApp threads that run your day-to-day operations.',
     problem:
       'Stock, orders, jobs or client records live across spreadsheets, notebooks and group chats. Nobody is sure which copy is current, reports take days to put together, and the business depends on one person remembering everything.',
@@ -57,7 +53,6 @@ export const services: Service[] = [
   {
     id: 'mpesa-integration',
     title: 'M-Pesa integration',
-    icon: 'ti-cash',
     summary: 'Take M-Pesa payments in your website or system and match them to the right customer automatically.',
     problem:
       'Customers pay by M-Pesa, then someone checks the statement, matches each payment to an invoice or order by hand and chases the ones that don’t line up. Mistakes are easy and slow to find.',
@@ -72,7 +67,6 @@ export const services: Service[] = [
   {
     id: 'workflow-automation',
     title: 'Workflow automation',
-    icon: 'ti-arrows-shuffle',
     summary: 'Hand the repetitive copy-paste, reminders and follow-ups to software.',
     problem:
       'Your team spends hours re-typing the same information between forms, email, spreadsheets and other tools, sending the same reminders, and chasing approvals — and things slip when someone is busy or away.',

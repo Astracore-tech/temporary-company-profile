@@ -1,145 +1,99 @@
-'use client'
 import React, { FC } from 'react'
 import Link from 'next/link'
 import Logo from '../Header/Logo'
-import { Icon } from '@iconify/react'
 import { services } from '@/content/services'
 import { PRIMARY_CTA } from '@/content/site-copy'
+import { SITE } from '@/utils/site'
 
 const SOCIALS = [
-  { icon: 'ph:x-logo-bold', label: 'X (Twitter)', href: 'https://x.com/AstraCoreTec' },
-  {
-    icon: 'ph:instagram-logo-bold',
-    label: 'Instagram',
-    href: 'https://www.instagram.com/astracoretech3',
-  },
-  {
-    icon: 'ph:linkedin-logo-bold',
-    label: 'LinkedIn',
-    href: 'https://www.linkedin.com/in/astra-coretech-87105b415',
-  },
+  { label: 'LinkedIn', href: 'https://www.linkedin.com/in/astra-coretech-87105b415' },
+  { label: 'Instagram', href: 'https://www.instagram.com/astracoretech3' },
+  { label: 'X', href: 'https://x.com/AstraCoreTec' },
 ]
 
 const NAV = [
-  { label: 'About', href: '/about' },
+  { label: 'Our work', href: '/portfolio' },
   { label: 'Services', href: '/services' },
-  { label: 'Our Work', href: '/portfolio' },
+  { label: 'About', href: '/about' },
   { label: 'Contact', href: '/contact' },
   { label: 'Privacy', href: '/privacy' },
 ]
 
-const Footer: FC = () => {
-  return (
-    <footer className='relative z-10 border-t border-[var(--ac-line)]'>
-      <div className='ac-container'>
-        <div className='grid grid-cols-1 md:grid-cols-3 gap-px bg-[var(--ac-line)] border-x border-b border-[var(--ac-line)] -mx-px'>
+const Heading = ({ children }: { children: React.ReactNode }) => <p className='ac-label mb-4'>{children}</p>
 
-          {/* Brand + CTA */}
-          <div className='bg-[var(--ac-bg)] px-8 py-12 flex flex-col justify-between gap-10'>
-            <Logo />
-            <div>
-              <p className='ac-h2 mb-7' style={{ fontSize: 'clamp(26px, 2.6vw, 34px)' }}>
-                Have a problem worth solving?
-              </p>
-              <Link href={PRIMARY_CTA.href} className='ac-btn ac-btn-primary'>
-                {PRIMARY_CTA.label}
-              </Link>
-            </div>
-          </div>
-
-          {/* Support */}
-          <div className='bg-[var(--ac-bg)] px-8 py-12'>
-            <p className='text-[var(--ac-ink-3)] text-[10px] font-semibold tracking-[0.26em] uppercase mb-8'>
-              Support
-            </p>
-
-            <div className='space-y-7'>
-              <div>
-                <p className='text-[var(--ac-ink-4)] text-[10px] uppercase tracking-[0.2em] mb-2'>
-                  Phone
-                </p>
-                <Link
-                  href='tel:+254739045698'
-                  className='ac-h3 hover:text-[var(--ac-accent)] transition-colors'>
-                  0739 045 698
-                </Link>
-              </div>
-              <div>
-                <p className='text-[var(--ac-ink-4)] text-[10px] uppercase tracking-[0.2em] mb-2'>
-                  Email
-                </p>
-                <Link
-                  href='mailto:info@astracoretech.org'
-                  className='ac-h3 hover:text-[var(--ac-accent)] transition-colors'>
-                  info@astracoretech.org
-                </Link>
-              </div>
-            </div>
-
-            <ul className='flex items-center gap-2.5 mt-9'>
-              {SOCIALS.map(({ icon, label, href }) => (
-                <li key={label}>
-                  <Link
-                    href={href}
-                    target='_blank'
-                    rel='noopener noreferrer'
-                    aria-label={label}
-                    className='flex items-center justify-center w-9 h-9 border border-[var(--ac-line)] text-[var(--ac-ink-3)] hover:text-[var(--ac-accent)] hover:border-[var(--ac-accent-line)] transition-colors'>
-                    <Icon icon={icon} width='16' height='16' />
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Services */}
-          <div className='bg-[var(--ac-bg)] px-8 py-12'>
-            <p className='text-[var(--ac-ink-3)] text-[10px] font-semibold tracking-[0.26em] uppercase mb-8'>
-              What We Build
-            </p>
-            <ul className='space-y-4'>
-              {services.map(({ id, title }) => (
-                <li key={id}>
-                  <Link
-                    href={`/services/#${id}`}
-                    className='ac-body hover:text-[var(--ac-accent)] transition-colors'>
-                    {title}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
-
-        {/* Legal bar */}
-        <div className='flex flex-col md:flex-row items-center justify-between gap-5 py-8'>
-          <ul className='flex flex-wrap justify-center items-center gap-x-7 gap-y-2'>
-            {NAV.map(({ label, href }) => (
-              <li key={href}>
-                <Link
-                  href={href}
-                  className='ac-small hover:text-[var(--ac-accent)] transition-colors'>
-                  {label}
-                </Link>
-              </li>
-            ))}
-          </ul>
-          <p className='ac-small text-center md:text-right'>
-            © {new Date().getFullYear()} AstraCore Technologies. All rights reserved. Developed by
-            Frankline Onyango.
-          </p>
-        </div>
-
-        {/* Attribution — deliberately quiet, but held at the faintest tone that
-            still clears WCAG AA so it stays legible. */}
-        <div className='border-t border-[var(--ac-line)] py-5 text-center'>
-          <p className='text-[var(--ac-ink-4)] text-[10px] italic lowercase tracking-[0.02em]'>
-            Powered by Margravon
-          </p>
-        </div>
+const Footer: FC = () => (
+  <footer className='border-t border-[var(--ac-line)]'>
+    <div className='ac-container py-14 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-[minmax(0,4fr)_repeat(3,minmax(0,2fr))] gap-10'>
+      <div className='sm:col-span-2 lg:col-span-1'>
+        <Logo />
+        <p className='ac-small mt-4 max-w-xs'>
+          Custom software for businesses in Kenya and abroad, built in {SITE.address.city}.
+        </p>
+        <Link href={PRIMARY_CTA.href} className='ac-btn ac-btn-primary mt-6'>
+          {PRIMARY_CTA.label}
+        </Link>
       </div>
-    </footer>
-  )
-}
+
+      <div>
+        <Heading>Contact</Heading>
+        <ul className='space-y-2.5 ac-small'>
+          <li>
+            <a href={`mailto:${SITE.email}`} className='hover:text-[var(--ac-ink)] break-all'>
+              {SITE.email}
+            </a>
+          </li>
+          <li>
+            <a href={`tel:${SITE.telephone}`} className='hover:text-[var(--ac-ink)]'>
+              {SITE.telephoneDisplay}
+            </a>
+          </li>
+          {SOCIALS.map(({ label, href }) => (
+            <li key={label}>
+              <a href={href} target='_blank' rel='noopener noreferrer' className='hover:text-[var(--ac-ink)]'>
+                {label} ↗
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <div>
+        <Heading>What we build</Heading>
+        <ul className='space-y-2.5 ac-small'>
+          {services.map(({ id, title }) => (
+            <li key={id}>
+              <Link href={`/services/#${id}`} className='hover:text-[var(--ac-ink)]'>
+                {title}
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <div>
+        <Heading>Company</Heading>
+        <ul className='space-y-2.5 ac-small'>
+          {NAV.map(({ label, href }) => (
+            <li key={href}>
+              <Link href={href} className='hover:text-[var(--ac-ink)]'>
+                {label}
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+
+    <div className='border-t border-[var(--ac-line)]'>
+      <div className='ac-container py-6 flex flex-col sm:flex-row sm:justify-between gap-2 text-[13px] text-[var(--ac-ink-4)]'>
+        <p>
+          © {new Date().getFullYear()} AstraCore Technologies. All rights reserved. Developed by
+          Frankline Onyango.
+        </p>
+        <p>Powered by Margravon</p>
+      </div>
+    </div>
+  </footer>
+)
 
 export default Footer

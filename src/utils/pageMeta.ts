@@ -9,6 +9,9 @@ type Args = {
   path: string
   image?: string
   imageAlt?: string
+  /** Pixel size of `image`; defaults to the site share image size. */
+  imageWidth?: number
+  imageHeight?: number
   type?: "website" | "article"
   publishedTime?: string
 }
@@ -23,6 +26,8 @@ export function pageMetadata({
   path,
   image,
   imageAlt,
+  imageWidth,
+  imageHeight,
   type = "website",
   publishedTime,
 }: Args): Metadata {
@@ -44,8 +49,8 @@ export function pageMetadata({
       images: [
         {
           url: ogImage,
-          width: SITE.ogImageWidth,
-          height: SITE.ogImageHeight,
+          width: image ? imageWidth : SITE.ogImageWidth,
+          height: image ? imageHeight : SITE.ogImageHeight,
           alt: imageAlt || `${title} — ${SITE.name}`,
         },
       ],

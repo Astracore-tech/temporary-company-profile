@@ -7,11 +7,27 @@
  * reference, not the data, which breaks the FAQPage structured data.
  */
 
-/** The one primary call to action used across the site. */
+/** The primary call to action used across the site. */
 export const PRIMARY_CTA = {
-  label: 'Tell us what you want to build or fix',
+  label: 'Discuss your project',
   href: '/contact/#inquiry',
 }
+
+/** The only other action offered on the home page. */
+export const WORK_CTA = {
+  label: 'View our work',
+  href: '/portfolio/',
+}
+
+/** Home page opening: one headline, one plain sentence, two actions. */
+export const HERO = {
+  headline: 'Custom software for the way your business works',
+  sentence:
+    'We build internal systems, customer portals and automations for businesses in Kenya and abroad, from a team in Nairobi.',
+}
+
+/** Heading above the inquiry form, wherever it appears. */
+export const INQUIRY_HEADING = 'Tell us what you want to build'
 
 export const howItWorks = [
   {

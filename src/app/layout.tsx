@@ -1,7 +1,6 @@
 import type { Metadata, Viewport } from "next";
-import { Inter } from "next/font/google";
+import { Instrument_Sans } from "next/font/google";
 import "./globals.css";
-import { ThemeProvider } from "next-themes";
 import NextTopLoader from "nextjs-toploader";
 import { SITE, absoluteUrl } from "@/utils/site";
 import {
@@ -12,7 +11,13 @@ import {
   serviceCatalogSchema,
 } from "@/utils/structuredData";
 
-const inter = Inter({ subsets: ["latin"], display: "swap" });
+// next/font downloads the font at build time and serves it from this site,
+// so visitors' browsers never contact Google.
+const instrument = Instrument_Sans({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-instrument",
+});
 
 export const metadata: Metadata = {
   // Makes every relative canonical / OG URL below resolve to an absolute one.
@@ -82,8 +87,8 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#08090c",
-  colorScheme: "dark",
+  themeColor: "#faf8f4",
+  colorScheme: "light",
   width: "device-width",
   initialScale: 1,
 };
@@ -102,29 +107,17 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang={SITE.language} suppressHydrationWarning>
+    <html lang={SITE.language} className={instrument.variable}>
       <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Inter:wght@300;400;500;600&display=swap"
-          rel="stylesheet"
-        />
-        <link
-          rel="stylesheet"
-          href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.47.0/tabler-icons.min.css"
-        />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(siteGraph) }}
         />
       </head>
-      <body className={inter.className}>
-        <NextTopLoader color="#00E5FF" showSpinner={false} />
+      <body>
+        <NextTopLoader color="#0b5e57" showSpinner={false} height={2} />
         {/* Public chrome lives in (site)/layout.tsx; the founder inbox has its own. */}
-        <ThemeProvider attribute="class" enableSystem={false} defaultTheme="dark">
-          {children}
-        </ThemeProvider>
+        {children}
       </body>
     </html>
   );

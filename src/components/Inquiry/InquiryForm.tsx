@@ -52,8 +52,8 @@ const LABEL = 'block text-[var(--ac-ink-2)] text-sm font-semibold mb-2'
 const HINT = 'block text-[var(--ac-ink-4)] text-xs font-normal mt-1'
 // 16px text on small screens stops iOS zooming into the field on focus.
 const FIELD =
-  'w-full bg-[var(--ac-bg)] text-[var(--ac-ink)] text-base sm:text-sm px-4 py-3.5 border border-[var(--ac-line-strong)] focus:border-[var(--ac-accent)] placeholder:text-[var(--ac-ink-4)] rounded-none focus-visible:outline-none transition-colors aria-[invalid=true]:border-[#ff6b6b]'
-const ERROR = 'mt-2 text-sm text-[#ff8a8a]'
+  'w-full bg-[var(--ac-bg)] text-[var(--ac-ink)] text-base sm:text-sm px-4 py-3.5 border border-[var(--ac-line-strong)] focus:border-[var(--ac-accent)] focus:shadow-[0_0_0_3px_var(--ac-accent-line)] placeholder:text-[var(--ac-ink-4)] rounded-md focus-visible:outline-none transition-colors aria-[invalid=true]:border-[var(--ac-danger)]'
+const ERROR = 'mt-2 text-sm text-[var(--ac-danger)]'
 
 const MESSAGES: Record<string, string> = {
   sent: '',
@@ -310,7 +310,7 @@ export default function InquiryForm({ variant = 'public' }: { variant?: Variant 
           ref={statusRef}
           tabIndex={-1}
           role='alert'
-          className='border border-[#ff6b6b66] bg-[#ff6b6b14] p-4 text-sm text-[var(--ac-ink)] focus:outline-none'>
+          className='rounded-md border border-[var(--ac-danger-line)] bg-[var(--ac-danger-dim)] p-4 text-sm text-[var(--ac-ink)] focus:outline-none'>
           <p>{status.message}</p>
           {variant === 'public' && (
             <p className='mt-2 text-[var(--ac-ink-3)]'>

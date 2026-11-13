@@ -11,7 +11,8 @@ export const organizationSchema = () => ({
   url: absoluteUrl("/"),
   logo: {
     "@type": "ImageObject",
-    url: absoluteUrl("/images/logo/logo-icon.png"),
+    // Placeholder mark until official logo artwork is approved.
+    url: absoluteUrl("/icon.png"),
   },
   image: absoluteUrl(SITE.ogImage),
   description: SITE.description,

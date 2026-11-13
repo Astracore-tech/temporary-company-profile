@@ -1,93 +1,96 @@
 import React from 'react'
 import Link from 'next/link'
-import { projects, STATUS_LABEL, type Project } from '@/content/portfolio'
-import { serviceTitle } from '@/content/services'
+import Image from 'next/image'
+import { projects, featuredProject, STATUS_LABEL, type Project } from '@/content/portfolio'
 import SectionHeading from '@/components/SharedComponent/SectionHeading'
 
-/** Honest status chip — green for running, amber for unfinished. */
+/** Honest status: green for running work, amber for unfinished. */
 export const StatusTag = ({ status }: { status: Project['status'] }) => {
   const done = status !== 'in-development'
   return (
-    <span className='ac-tag gap-2' style={{ color: done ? 'var(--ac-ok)' : 'var(--ac-warn)' }}>
-      <span
-        aria-hidden='true'
-        className='inline-block w-1.5 h-1.5 rounded-full'
-        style={{ background: 'currentColor' }}
-      />
+    <span className='ac-tag' style={{ color: done ? 'var(--ac-ok)' : 'var(--ac-warn)' }}>
+      <span aria-hidden='true' className='inline-block w-1.5 h-1.5 rounded-full bg-current' />
       {STATUS_LABEL[status]}
     </span>
   )
 }
 
-const ProjectCard = ({ p, i }: { p: Project; i: number }) => (
-  <Link
-    href={`/portfolio/${p.slug}/`}
-    className='ac-card group flex flex-col p-6 sm:p-8 lg:p-10 h-full'
-    data-aos='fade-up'
-    data-aos-duration='700'
-    data-aos-delay={`${(i % 2) * 80}`}>
-    <div className='flex items-start justify-between gap-4 mb-6'>
-      <div
-        className='w-11 h-11 shrink-0 flex items-center justify-center border'
-        style={{ background: 'var(--ac-accent-dim)', borderColor: 'var(--ac-accent-line)' }}>
-        <i className={`ti ${p.icon} text-xl text-[var(--ac-accent)]`} aria-hidden='true' />
+/** The lead case study, with its real screenshot. */
+export const FeaturedProject = ({ p = featuredProject }: { p?: Project }) => {
+  const shot = p.evidence?.[0]
+  return (
+    <Link
+      href={`/portfolio/${p.slug}/`}
+      className='ac-card group grid grid-cols-1 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] overflow-hidden'>
+      <div className='p-6 sm:p-8 lg:p-10 flex flex-col'>
+        <div className='flex flex-wrap gap-2 mb-5'>
+          <span className='ac-tag ac-tag-accent'>Case study</span>
+          <StatusTag status={p.status} />
+        </div>
+        <h3 className='ac-h2 !text-[clamp(24px,2.6vw,32px)] mb-4 group-hover:text-[var(--ac-accent)] transition-colors'>
+          {p.headline ?? p.name}
+        </h3>
+        <p className='ac-body mb-6'>{p.lede ?? p.summary}</p>
+        <span className='ac-link mt-auto'>Read the case study →</span>
       </div>
+      {shot && (
+        <div className='bg-[var(--ac-surface-2)] border-t lg:border-t-0 lg:border-l border-[var(--ac-line)] p-4 sm:p-6 flex items-center'>
+          <figure className='w-full'>
+            <div className='ac-figure'>
+              <Image src={shot.src} alt={shot.alt} width={shot.width} height={shot.height} sizes='(min-width: 1024px) 680px, 100vw' />
+            </div>
+            <figcaption className='text-[13px] leading-snug text-[var(--ac-ink-4)] mt-3'>
+              Real screen, demo data.
+            </figcaption>
+          </figure>
+        </div>
+      )}
+    </Link>
+  )
+}
+
+const ProjectCard = ({ p }: { p: Project }) => (
+  <Link href={`/portfolio/${p.slug}/`} className='ac-card group flex flex-col p-6 sm:p-7 h-full'>
+    <div className='mb-4'>
       <StatusTag status={p.status} />
     </div>
-    <p className='text-[var(--ac-ink-4)] text-[10px] font-bold uppercase tracking-[0.22em] mb-2'>
-      {p.kind}
-    </p>
+    <p className='ac-label mb-1.5'>{p.kind}</p>
     <h3 className='ac-h3 mb-3 group-hover:text-[var(--ac-accent)] transition-colors'>{p.name}</h3>
-    <p className='ac-body mb-6'>{p.summary}</p>
-    <div className='mt-auto flex flex-wrap items-center justify-between gap-4'>
-      <ul className='flex flex-wrap gap-2' aria-label='Related services'>
-        {p.services.map((id) => (
-          <li key={id} className='ac-tag'>
-            {serviceTitle(id)}
-          </li>
-        ))}
-      </ul>
-      <span className='ac-link'>How it’s built →</span>
-    </div>
+    <p className='ac-small mb-5'>{p.summary}</p>
+    <span className='ac-link mt-auto'>How it’s built →</span>
   </Link>
 )
 
 /**
- * The portfolio grid. On the home page (`compact`) it adds a link through to
- * /portfolio/; on /portfolio/ itself it explains what the list is and isn't.
+ * The portfolio: the featured case study first, then the rest. On the home
+ * page (`compact`) it adds a link through to /portfolio/.
  */
-const WorkSection = ({ compact = false }: { compact?: boolean }) => (
-  <section className='border-t border-[var(--ac-line)] scroll-mt-24' id='work'>
-    <div className='ac-container'>
-      <SectionHeading
-        eyebrow='Our Work'
-        title={
-          <>
-            Systems we’ve built
-            <br />
-            <span className='ac-muted-line'>and run ourselves</span>
-          </>
-        }
-        description={
-          compact
-            ? 'We’re a young company, so instead of mock-ups we show what we have actually built — the same kinds of work we offer you.'
-            : 'Every project here is our own work, described as it stands today. We don’t show client names, figures or results we can’t stand behind.'
-        }
-        aside={
-          compact ? (
-            <Link href='/portfolio/' className='ac-link'>
-              See all work →
-            </Link>
-          ) : undefined
-        }
-      />
-      <div className='grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6'>
-        {projects.map((p, i) => (
-          <ProjectCard key={p.slug} p={p} i={i} />
-        ))}
+const WorkSection = ({ compact = false }: { compact?: boolean }) => {
+  const others = projects.filter((p) => p.slug !== featuredProject.slug)
+  return (
+    <section className='scroll-mt-20' id='work'>
+      <div className='ac-container'>
+        <SectionHeading
+          eyebrow='Our work'
+          title='Systems we have built and run ourselves'
+          description='We are a young company, so instead of mock-ups we show what we have actually built, described as it stands today. No client names or results we can’t stand behind.'
+          aside={
+            compact ? (
+              <Link href='/portfolio/' className='ac-link'>
+                All work →
+              </Link>
+            ) : undefined
+          }
+        />
+        <FeaturedProject />
+        <div className='grid grid-cols-1 md:grid-cols-3 gap-4 mt-4'>
+          {others.map((p) => (
+            <ProjectCard key={p.slug} p={p} />
+          ))}
+        </div>
       </div>
-    </div>
-  </section>
-)
+    </section>
+  )
+}
 
 export default WorkSection

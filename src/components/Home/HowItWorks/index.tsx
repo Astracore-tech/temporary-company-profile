@@ -6,28 +6,17 @@ const HowItWorks = () => (
   <section className='border-t border-[var(--ac-line)]' id='how-it-works'>
     <div className='ac-container'>
       <SectionHeading
-        eyebrow='How It Works'
-        title={
-          <>
-            From first message
-            <br />
-            <span className='ac-muted-line'>to a clear proposal</span>
-          </>
-        }
-        description='The same process whether you are in Nairobi or anywhere else.'
+        eyebrow='How it works'
+        title='From first message to a written proposal'
+        description='The same process whether you are in Nairobi or anywhere else. Nothing starts until you have agreed the scope and cost in writing.'
       />
-      <ol className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-px bg-[var(--ac-line)] border border-[var(--ac-line)]'>
+      <ol className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3'>
         {howItWorks.map((step, i) => (
-          <li
-            key={step.title}
-            className='bg-[var(--ac-surface)] p-6 sm:p-8'
-            data-aos='fade-up'
-            data-aos-duration='700'
-            data-aos-delay={`${i * 80}`}>
-            <span className='text-[10px] font-bold tracking-[0.25em] text-[var(--ac-accent)]'>
+          <li key={step.title} className='ac-panel p-6'>
+            <span className='text-[13px] font-semibold text-[var(--ac-accent)] tabular-nums'>
               {String(i + 1).padStart(2, '0')}
             </span>
-            <h3 className='ac-h4 mt-3 mb-2.5'>{step.title}</h3>
+            <h3 className='ac-h4 mt-2 mb-2'>{step.title}</h3>
             <p className='ac-small'>{step.body}</p>
           </li>
         ))}

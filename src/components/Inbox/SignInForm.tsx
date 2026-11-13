@@ -3,7 +3,7 @@ import { useState } from 'react'
 import { signIn } from 'next-auth/react'
 
 const FIELD =
-  'w-full bg-[var(--ac-surface)] text-[var(--ac-ink)] text-base sm:text-sm px-4 py-3.5 border border-[var(--ac-line-strong)] focus:border-[var(--ac-accent)] rounded-none focus-visible:outline-none'
+  'w-full bg-[var(--ac-surface)] text-[var(--ac-ink)] text-base sm:text-sm px-4 py-3.5 border border-[var(--ac-line-strong)] focus:border-[var(--ac-accent)] focus:shadow-[0_0_0_3px_var(--ac-accent-line)] rounded-md focus-visible:outline-none'
 
 export default function SignInForm() {
   const [error, setError] = useState('')
@@ -55,7 +55,7 @@ export default function SignInForm() {
         />
       </div>
       {error && (
-        <p role='alert' className='text-sm text-[#ff8a8a]'>
+        <p role='alert' className='text-sm text-[var(--ac-danger)]'>
           {error}
         </p>
       )}

@@ -1,61 +1,23 @@
-import { useState } from 'react';
-import Link from 'next/link';
-import { HeaderItem } from '../../../../types/menu';
-import { usePathname } from 'next/navigation';
+'use client'
+import Link from 'next/link'
+import { HeaderItem } from '../../../../types/menu'
+import { useIsActive } from './HeaderLink'
 
 const MobileHeaderLink: React.FC<{ item: HeaderItem }> = ({ item }) => {
-  const [submenuOpen, setSubmenuOpen] = useState(false);
-
-  const handleToggle = (e: React.MouseEvent) => {
-    if (item.submenu) {
-      e.preventDefault();
-      setSubmenuOpen(!submenuOpen);
-    }
-  };
-
-  const path = usePathname();
-  // trailingSlash is on, so the path may be "/services/" — compare without it.
-  const current = path.replace(/\/$/, "") || "/";
-  const isActive =
-    current === item.href || (item.href !== "/" && current.startsWith(`${item.href}/`));
-
+  const active = useIsActive(item.href)
   return (
-    <div className="relative block w-full border-b border-[var(--ac-line)]">
-      <Link
-        href={item.href}
-        onClick={handleToggle}
-        className={`flex items-center justify-between w-full py-4 px-4 text-xs font-bold tracking-[0.2em] uppercase transition-colors focus:outline-hidden ${
-          isActive ? 'text-[var(--ac-accent)]' : 'text-[var(--ac-ink-3)] hover:text-[var(--ac-ink)]'
-        }`}
-      >
-        {item.label}
-        {item.submenu && (
-          <svg xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" viewBox="0 0 24 24" className="opacity-60">
-            <path fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="m7 10l5 5l5-5" />
-          </svg>
-        )}
-      </Link>
-      {submenuOpen && item.submenu && (
-        <div className="bg-[var(--ac-surface-2)] w-full px-2 py-1">
-          {item.submenu.map((subItem, index) => {
-            const isSubActive = path === subItem.href;
-            return (
-              <Link
-                key={index}
-                href={subItem.href}
-                className={`block py-3 px-4 text-[10px] font-semibold tracking-wider uppercase ${
-                  isSubActive ? 'text-[var(--ac-accent)]' : 'text-[var(--ac-ink-3)] hover:text-[var(--ac-ink)]'
-                }`}
-              >
-                {subItem.label}
-              </Link>
-            );
-          })}
-        </div>
-      )}
-    </div>
-  );
-};
+    <Link
+      href={item.href}
+      aria-current={active ? 'page' : undefined}
+      className={`flex items-center justify-between py-3.5 border-b border-[var(--ac-line)] text-[17px] ${
+        active ? 'text-[var(--ac-accent)] font-semibold' : 'text-[var(--ac-ink)]'
+      }`}>
+      {item.label}
+      <span aria-hidden='true' className='text-[var(--ac-ink-4)]'>
+        →
+      </span>
+    </Link>
+  )
+}
 
-export default MobileHeaderLink;
-
+export default MobileHeaderLink

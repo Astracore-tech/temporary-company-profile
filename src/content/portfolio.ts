@@ -1,17 +1,27 @@
 /**
  * Portfolio — the systems AstraCore has built. Edit this file to change what
- * /portfolio/ shows. Nothing in the inquiry workflow reads it.
+ * /portfolio/ and each case study show. Nothing in the inquiry workflow reads it.
  *
- * House rules (same as services.ts): every entry is AstraCore's own work and
- * every statement must be true of what exists today. No client names, invented
- * results, usage figures or screenshots of real data. Use `status` to say
- * honestly where a project stands; anything planned goes in `planned`, never
- * in `built`.
+ * House rules: every entry is AstraCore's own work and every statement must be
+ * true of what exists today. No client names, invented results or usage
+ * figures. Screenshots must be real software showing made-up demo data only —
+ * never real client or financial records — and say so in their caption.
+ * Unfinished scope goes in `planned`, never in `built`.
  *
- * Don't rename a `slug` once published — it is the page URL.
+ * Don't rename a `slug` once published: it is the page URL people share.
  */
 
 export type ProjectStatus = 'in-use' | 'internal-tool' | 'in-development' | 'live'
+
+export type Evidence = {
+  /** Path under /public. */
+  src: string
+  width: number
+  height: number
+  alt: string
+  /** Shown under the image. Must say whether the data is real or demo. */
+  caption: string
+}
 
 export type Project = {
   slug: string
@@ -19,23 +29,33 @@ export type Project = {
   /** What kind of thing it is, e.g. "Internal operations platform". */
   kind: string
   status: ProjectStatus
+  /** Shown first on the home page and at the top of /portfolio/. */
+  featured?: boolean
   /** One line for cards. */
   summary: string
-  /** Who it is for and what was going wrong. */
+  /** Case-study title; defaults to `name`. */
+  headline?: string
+  /** First-screen paragraph on the case study; defaults to `summary`. */
+  lede?: string
+  /** Up to four short facts shown on the first screen of the case study. */
+  highlights?: string[]
+  /** The situation this kind of system fixes. */
   problem: string
   /** What exists today. */
   built: string[]
-  /** Scope that is designed but not finished — shown only for in-development work. */
+  /** Designed but not finished — only for in-development work. */
   planned?: string[]
-  /** How the pieces fit, in order. Rendered as a flow. */
+  /** How the pieces fit, in order. */
   flow: { step: string; detail: string }[]
   /** Decisions worth explaining to a buyer, with the reason. */
   decisions: { title: string; body: string }[]
+  /** Real screenshots, demo data only. Leave empty rather than fake one. */
+  evidence?: Evidence[]
   stack: string[]
   /** Service ids from services.ts this work demonstrates — only for work that exists. */
   services: string[]
-  /** Tabler icon class for the card. */
-  icon: string
+  /** Closing call to action on the case study; links to the inquiry form. */
+  ctaLabel?: string
 }
 
 export const STATUS_LABEL: Record<ProjectStatus, string> = {
@@ -51,58 +71,122 @@ export const projects: Project[] = [
     name: 'AstraCore OS',
     kind: 'Internal operations platform',
     status: 'in-use',
-    icon: 'ti-layout-dashboard',
+    featured: true,
     summary:
-      'The system our own remote team runs the company on: projects and tasks, HR and leave, finance, compliance deadlines and documents, behind one sign-in.',
+      'Our own internal tool, with automatically numbered invoices and a finance summary alongside projects, HR, compliance and documents.',
+    headline: 'Invoicing and finance inside AstraCore OS',
+    lede:
+      'AstraCore OS is our own internal tool: the system our team runs the company on. It numbers every invoice automatically and rolls invoices up into a finance summary, so what has been billed, collected and is overdue is visible at a glance.',
+    highlights: [
+      'Invoice numbers assigned automatically, in sequence: INV-2026-0001, 0002…',
+      'Draft, sent, paid, overdue and cancelled, with totals for each',
+      'Finance summary of paid revenue and totals by invoice status',
+      'Visible only to the founder and COO, checked on the server',
+    ],
     problem:
-      'A remote team working across several projects had its work spread over a task tool, spreadsheets, chat threads and shared folders. Approvals waited on whoever remembered them, nobody could see workload at a glance, and legal and tax deadlines depended on someone keeping a calendar up to date.',
+      'A business needs one trustworthy record of what it has billed and what it is owed. When invoices live in separate documents and a spreadsheet, numbers get skipped or repeated, statuses go stale, and answering “what is overdue?” means going through every file by hand.',
     built: [
-      'Projects and tasks with kanban boards, checklists, comments, attachments and an activity trail',
-      'Two-way task sync with ClickUp, so the team could move over without a hard cut-off',
-      'Role hierarchy from founder to staff, with each screen and API action checked against the role',
-      'Leave requests, balances and approvals; performance reviews and bonuses',
-      'Invoices with automatic numbering, and a finance summary',
-      'Clients and deals pipeline',
-      'Daily stand-ups, KPIs per department, and SOPs with read tracking',
+      'Invoices with client, services, amount, currency, issue and due dates, and notes',
+      'Automatic invoice numbering, with duplicates rejected by the database',
+      'Status filters and running totals: total value, collected, outstanding and overdue',
+      'Finance summary: paid revenue and totals by invoice status',
+      'Invoice and finance screens restricted to the founder and COO',
+      'Projects and tasks with kanban boards, checklists, comments and attachments',
+      'Leave, performance reviews, KPIs, stand-ups and SOPs with read tracking',
       'Compliance tracker for legal and tax deadlines',
-      'Guided onboarding checklist for new team members',
       'Document storage, notifications and an audit log of major actions',
       'Google sign-in alongside email and password, with password reset',
     ],
     flow: [
-      { step: 'Sign in', detail: 'Short-lived access token plus a refresh cookie; Google or email.' },
-      { step: 'Role check', detail: 'Every request is authorised on the server against the user’s role.' },
-      { step: 'Module', detail: 'Tasks, HR, finance, compliance and the rest share one database.' },
-      { step: 'Audit', detail: 'Major actions are written to an audit log as they happen.' },
-      { step: 'Notify', detail: 'The people who need to act see it in their notifications.' },
+      { step: 'Create', detail: 'Enter the client, services, amount and due date.' },
+      { step: 'Number', detail: 'The system assigns the next invoice number.' },
+      { step: 'Track', detail: 'Move it from draft to sent, then paid or overdue.' },
+      { step: 'Summarise', detail: 'Totals by status update as invoices change.' },
+      { step: 'Restrict', detail: 'Only the founder and COO can open these screens.' },
     ],
     decisions: [
       {
-        title: 'Sync with the old tool instead of a hard switch',
-        body: 'Tasks sync both ways with ClickUp, so people could keep working while the team moved across. Replacing a tool everyone depends on in one day is how adoption fails.',
+        title: 'Numbers are generated, never typed',
+        body: 'The system assigns each invoice number when the invoice is created, and the database refuses a duplicate. Nobody has to remember the last number used.',
+      },
+      {
+        title: 'Status drives the totals',
+        body: 'Collected, outstanding and overdue are calculated from each invoice’s status, so the summary can’t drift away from the invoices themselves.',
       },
       {
         title: 'Permissions enforced on the server',
-        body: 'Hiding a button is not access control. Each API route checks the role itself, so finance and HR data stay with the people allowed to see them.',
-      },
-      {
-        title: 'Built around Kenyan rules',
-        body: 'Leave and compliance were set up for how a Kenyan company actually has to operate, rather than adapted from a generic HR template.',
+        body: 'Hiding a menu item is not access control. The invoice and finance endpoints check the role on every request, so financial data stays with the people allowed to see it.',
       },
     ],
-    stack: ['React 19', 'Vite', 'Node.js', 'Express 5', 'Prisma', 'PostgreSQL', 'Cloudflare R2', 'ClickUp API'],
+    evidence: [
+      {
+        src: '/images/work/astracore-os-invoices.webp',
+        width: 2120,
+        height: 1520,
+        alt: 'AstraCore OS invoices screen: totals for total value, collected, outstanding and overdue, status filters, and a table of six invoices numbered INV-2026-0001 to INV-2026-0006.',
+        caption:
+          'The real AstraCore OS invoices screen, run on our own machine with made-up demo data. The clients and amounts are not real.',
+      },
+      {
+        src: '/images/work/astracore-os-revenue-by-status.webp',
+        width: 1036,
+        height: 480,
+        alt: 'AstraCore OS finance summary: revenue by status — draft, sent, overdue and paid.',
+        caption: 'Finance summary from the same demo data: totals by invoice status.',
+      },
+    ],
+    stack: ['React 19', 'Vite', 'Node.js', 'Express 5', 'Prisma', 'PostgreSQL', 'Cloudflare R2'],
     services: ['operational-systems', 'workflow-automation'],
+    ctaLabel: 'Discuss your invoicing workflow',
+  },
+  {
+    slug: 'inquiry-inbox',
+    name: 'This website & founder inbox',
+    kind: 'Website with a private sales pipeline',
+    status: 'live',
+    summary:
+      'The site you are on, and the private inbox behind its inquiry form, where every lead is tracked from first message to first payment and onboarding.',
+    problem:
+      'Leads arrive through a website, WhatsApp, referrals and meetings, and end up in whichever app they came through. Follow-ups depend on memory, and nobody can see which accepted proposals are still waiting on a first payment.',
+    built: [
+      'A short, mobile-friendly inquiry form with checks done on the server',
+      'Protection against double-clicks, retries and resubmits, so one inquiry is saved once',
+      'Rate limits and spam filtering, without storing visitors’ IP addresses',
+      'Success shown only after the inquiry is saved; on failure the visitor keeps what they typed and can retry',
+      'A private inbox with sign-in checked on the server for every page and action',
+      'Leads added by hand from referrals, meetings or WhatsApp, with their source',
+      'Pipeline stages, next actions with due dates, and overdue items shown first',
+      'First payment and onboarding recorded as separate dated events, with a full history',
+    ],
+    flow: [
+      { step: 'Inquiry', detail: 'A visitor describes the problem; the form posts to the server only.' },
+      { step: 'Checks', detail: 'Validation, duplicate detection and abuse limits.' },
+      { step: 'Saved', detail: 'Stored first; only then does the visitor see a reference.' },
+      { step: 'Follow up', detail: 'Next action and due date; overdue items rise to the top.' },
+      { step: 'Accepted', detail: 'First payment and onboarding tracked as dated events.' },
+    ],
+    decisions: [
+      {
+        title: 'Never show success before the save',
+        body: 'A visitor who sees “sent” assumes someone has it. The confirmation appears only after the database confirms the write.',
+      },
+      {
+        title: 'Personal details stay out of URLs and logs',
+        body: 'Inquiry text and contact details are never placed in a URL, analytics or an application log, only in the database the founder controls.',
+      },
+    ],
+    stack: ['Next.js 16', 'React 19', 'TypeScript', 'NextAuth', 'libSQL', 'Tailwind CSS'],
+    services: ['websites-portals', 'operational-systems'],
   },
   {
     slug: 'market-intelligence-agent',
     name: 'Market intelligence agent',
     kind: 'Always-on automation service',
     status: 'internal-tool',
-    icon: 'ti-radar',
     summary:
       'A service that watches public social posts around the clock, picks out businesses asking for help we offer, and sends a short daily list for a person to follow up.',
     problem:
-      'Finding businesses that are publicly asking for a website, a system or automation meant scrolling social feeds by hand. Most posts were noise or spam, good ones were found days late, and nothing was recorded, so the same post could be looked at twice or missed entirely.',
+      'Finding businesses that are publicly asking for a website, a system or automation means scrolling social feeds by hand. Most posts are noise or spam, good ones are found days late, and nothing is recorded, so the same post can be looked at twice or missed entirely.',
     built: [
       'A 24/7 listener on the public Bluesky feed, with a cheap pre-filter in front of the expensive steps',
       'A persistent work queue, so nothing is lost on a restart and every post is processed once',
@@ -142,7 +226,6 @@ export const projects: Project[] = [
     name: 'SkillPath Academy',
     kind: 'Learning platform — our own product',
     status: 'in-development',
-    icon: 'ti-school',
     summary:
       'An African-first platform for practical digital skills that we are building: conversational onboarding, booking, M-Pesa payment and live classes, designed for phones on slow connections.',
     problem:
@@ -181,49 +264,11 @@ export const projects: Project[] = [
     // (Unfinished projects are also left out of the "see it in our work" links.)
     services: ['websites-portals', 'workflow-automation'],
   },
-  {
-    slug: 'inquiry-inbox',
-    name: 'This website & founder inbox',
-    kind: 'Website with a private sales pipeline',
-    status: 'live',
-    icon: 'ti-inbox',
-    summary:
-      'The site you are on, and the private inbox behind its inquiry form, where every lead is tracked from first message to first payment and onboarding.',
-    problem:
-      'Leads arrived through the website, WhatsApp, referrals and meetings, and lived in whichever app they came through. Follow-ups depended on memory, and nobody could see which accepted proposals were still waiting on a first payment.',
-    built: [
-      'A short, mobile-friendly inquiry form with checks done on the server',
-      'Protection against double-clicks, retries and resubmits, so one inquiry is saved once',
-      'Rate limits and spam filtering, without storing visitors’ IP addresses',
-      'Success shown only after the inquiry is saved; on failure the visitor keeps what they typed and can retry',
-      'A private inbox with sign-in checked on the server for every page and action',
-      'Leads added by hand from referrals, meetings or WhatsApp, with their source',
-      'Pipeline stages, next actions with due dates, and overdue items shown first',
-      'First payment and onboarding recorded as separate dated events, with a full history',
-    ],
-    flow: [
-      { step: 'Inquiry', detail: 'A visitor describes the problem; the form posts to the server only.' },
-      { step: 'Checks', detail: 'Validation, duplicate detection and abuse limits.' },
-      { step: 'Saved', detail: 'Stored first; only then does the visitor see a reference.' },
-      { step: 'Follow up', detail: 'Next action and due date; overdue items rise to the top.' },
-      { step: 'Accepted', detail: 'First payment and onboarding tracked as dated events.' },
-    ],
-    decisions: [
-      {
-        title: 'Never show success before the save',
-        body: 'A visitor who sees “sent” assumes someone has it. The confirmation appears only after the database confirms the write.',
-      },
-      {
-        title: 'Personal details stay out of URLs and logs',
-        body: 'Inquiry text and contact details are never placed in a URL, analytics or an application log, only in the database the founder controls.',
-      },
-    ],
-    stack: ['Next.js 16', 'React 19', 'TypeScript', 'NextAuth', 'libSQL', 'Tailwind CSS'],
-    services: ['websites-portals', 'operational-systems'],
-  },
 ]
 
 export const projectBySlug = (slug: string) => projects.find((p) => p.slug === slug)
+
+export const featuredProject = projects.find((p) => p.featured) ?? projects[0]
 
 /** Finished work that shows a service in practice — unfinished projects don't count as proof. */
 export const projectsForService = (serviceId: string) =>

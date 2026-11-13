@@ -54,9 +54,8 @@ export const privacySections: PrivacySection[] = [
       'We don’t set cookies for visitors. (Cookies are used only when our own staff sign in to the private inbox.)',
       'We don’t store your IP address. To stop abuse of the form, we keep a scrambled, one-way code derived from it, which cannot be turned back into the address, and delete it within a day.',
       'We never put what you write, or your contact details, in web addresses or in our application logs.',
+      'The site’s fonts are served from this website itself, so loading a page doesn’t contact Google or any other font or icon service.',
     ],
-    after:
-      'If you switch between light and dark mode, your browser remembers the choice on your own device; it is not sent to us.',
   },
   {
     id: 'why',
@@ -77,7 +76,6 @@ export const privacySections: PrivacySection[] = [
     list: [
       'Vercel Inc. hosts the website, and receives your IP address and browser details when you visit, as any web host does.',
       'Turso hosts the database where inquiries are stored.',
-      'Google Fonts and jsDelivr deliver the site’s fonts and icons. Your browser requests them directly, so those services receive your IP address. They don’t receive anything you type.',
     ],
     after:
       'We would disclose personal data to a government authority or court only where Kenyan law requires it.',

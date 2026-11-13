@@ -36,7 +36,7 @@ const ERRORS: Record<string, string> = {
 }
 
 const FIELD =
-  'w-full bg-[var(--ac-bg)] text-[var(--ac-ink)] text-base sm:text-sm px-3.5 py-3 border border-[var(--ac-line-strong)] focus:border-[var(--ac-accent)] rounded-none focus-visible:outline-none'
+  'w-full bg-[var(--ac-bg)] text-[var(--ac-ink)] text-base sm:text-sm px-3.5 py-3 border border-[var(--ac-line-strong)] focus:border-[var(--ac-accent)] focus:shadow-[0_0_0_3px_var(--ac-accent-line)] rounded-md focus-visible:outline-none'
 const LABEL = 'block text-sm font-semibold text-[var(--ac-ink-2)] mb-1.5'
 const PANEL = 'ac-card p-5 sm:p-6'
 const BUTTON = 'ac-btn ac-btn-primary min-h-[44px]'
@@ -92,7 +92,7 @@ export default async function InquiryPage({ params, searchParams }: Props) {
         </p>
       )}
       {error && (
-        <p role='alert' className='mt-4 border border-[#ff6b6b66] bg-[#ff6b6b14] px-4 py-3 text-sm text-[var(--ac-ink)]'>
+        <p role='alert' className='mt-4 rounded-md border border-[var(--ac-danger-line)] bg-[var(--ac-danger-dim)] px-4 py-3 text-sm text-[var(--ac-ink)]'>
           {ERRORS[error] ?? ERRORS.invalid}
         </p>
       )}
@@ -151,7 +151,7 @@ export default async function InquiryPage({ params, searchParams }: Props) {
             <h2 className='ac-h4 mb-3'>Next action</h2>
             {i.nextAction ? (
               <div className='mb-5'>
-                <p className={overdue ? 'text-[#ff8a8a] font-semibold' : 'text-[var(--ac-ink)]'}>
+                <p className={overdue ? 'text-[var(--ac-danger)] font-semibold' : 'text-[var(--ac-ink)]'}>
                   {overdue ? 'Overdue — ' : ''}due {formatDate(i.nextActionDue!)}
                 </p>
                 <p className='ac-body mt-1'>{i.nextAction}</p>
