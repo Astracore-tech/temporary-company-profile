@@ -25,6 +25,7 @@ const NAV = [
   { label: 'Services', href: '/services' },
   { label: 'Our Work', href: '/portfolio' },
   { label: 'Contact', href: '/contact' },
+  { label: 'Privacy', href: '/privacy' },
 ]
 
 const Footer: FC = () => {

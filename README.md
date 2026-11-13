@@ -59,6 +59,7 @@ The script refuses to run against astracoretech.org.
 | --- | --- |
 | Service descriptions shown on the site | `src/content/services.ts` |
 | Portfolio projects (`/portfolio/`) | `src/content/portfolio.ts` |
+| Privacy notice (`/privacy/`) | `src/content/privacy.ts` |
 | Call to action, "how it works", FAQ | `src/content/site-copy.ts` |
 | Pipeline stages and sources | `src/lib/pipeline.ts` |
 | Inquiry storage and rules | `src/server/inquiries.ts` |
@@ -96,6 +97,12 @@ on the server, and checks that the account still exists.
   as `?ok=note`. Errors are logged by class and code only.
 - Visitor IP addresses aren't stored. A salted hash of the IP serves as the
   rate-limit key and expires after a day.
+- `/privacy/` describes all of the above to visitors. Keep it true: if you add
+  analytics, a form field, notifications or a new provider, update
+  `src/content/privacy.ts` (and its date) first.
+- The notice promises to delete inquiries that didn't lead to work within 24
+  months of last contact. Nothing does this automatically, so review old
+  inquiries in the inbox periodically.
 - On Vercel, the rate limit trusts Vercel's `x-forwarded-for`. On any other
   host, put the app behind a proxy that sets that header.
 
@@ -121,14 +128,30 @@ id. `/contact/#inquiry` is the target of the primary call to action.
 ## Deployment
 
 Production publication isn't automated by this repository.
-`.github/workflows/ci.yml` only type-checks and builds. Before deploying to
-Vercel:
+`.github/workflows/ci.yml` only type-checks and builds. The live site is
+`https://www.astracoretech.org`; the bare domain redirects to it.
 
-1. Provision a hosted libsql database and set `DATABASE_URL` and
-   `DATABASE_AUTH_TOKEN`.
-2. Set `NEXTAUTH_URL` (the public origin) and a fresh `NEXTAUTH_SECRET`.
-3. Create the founder's account against the production database with
-   `npm run staff:add`.
+Production is set up as follows (done in November 2026):
+
+1. **Database:** Turso, database `astracore-inquiries`, region AWS us-east-1.
+2. **Vercel environment variables (Production only):** `DATABASE_URL`,
+   `DATABASE_AUTH_TOKEN`, `NEXTAUTH_URL`, `NEXTAUTH_SECRET`,
+   `NEXT_PUBLIC_SITE_URL` (all `https://www.astracoretech.org` where they're an
+   address) and `APP_TIMEZONE`. The token, the secret and the database URL are
+   marked Sensitive. Previews get none of them, so a preview can never write to
+   the real inbox.
+3. **Founder account:** created against the production database.
+
+The same values live in a git-ignored `.env.prod.local` on the
+founder's machine. That file drives these commands:
+
+```bash
+npm run db:check:prod                                    # connect, create tables, show row counts
+npm run staff:add:prod -- person@example.com "Name"      # create or reset a production account
+```
+
+To rotate the sign-in secret, replace `NEXTAUTH_SECRET` in Vercel and redeploy.
+Everyone is signed out.
 
 The app refuses a `file:` database on Vercel, so it can't silently lose
 inquiries.

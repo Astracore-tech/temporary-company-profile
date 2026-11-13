@@ -8,7 +8,7 @@
 export const SITE = {
   name: "AstraCore Technologies",
   shortName: "AstraCore",
-  url: (process.env.NEXT_PUBLIC_SITE_URL || "https://astracoretech.org").replace(/\/$/, ""),
+  url: (process.env.NEXT_PUBLIC_SITE_URL || "https://www.astracoretech.org").replace(/\/$/, ""),
   tagline: "Premium IT Solutions",
   description:
     "Nairobi software company building business websites and portals, custom operational systems, M-Pesa integrations and workflow automation — for businesses in Kenya and abroad.",

@@ -1,5 +1,6 @@
 'use client'
 import React, { useEffect, useRef, useState } from 'react'
+import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { serviceInterestOptions } from '@/content/services'
 import { MANUAL_SOURCES } from '@/lib/pipeline'
@@ -342,7 +343,13 @@ export default function InquiryForm({ variant = 'public' }: { variant?: Variant 
                 : 'Save opportunity'}
         </button>
         {variant === 'public' && (
-          <p className='ac-small'>We only use these details to reply to you about this inquiry.</p>
+          <p className='ac-small'>
+            We use these details only to reply to you and, if we work together, to manage that
+            work.{' '}
+            <Link href='/privacy/' className='underline underline-offset-2 hover:text-[var(--ac-accent)]'>
+              Privacy notice
+            </Link>
+          </p>
         )}
       </div>
     </form>

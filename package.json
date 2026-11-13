@@ -9,7 +9,10 @@
         "typecheck": "tsc --noEmit",
         "staff:add": "node --env-file-if-exists=.env.local scripts/add-staff.mjs add",
         "staff:remove": "node --env-file-if-exists=.env.local scripts/add-staff.mjs remove",
-        "verify:journey": "node scripts/verify-journey.mjs"
+        "verify:journey": "node scripts/verify-journey.mjs",
+        "db:check": "node --env-file-if-exists=.env.local scripts/db-check.mjs",
+        "db:check:prod": "node --env-file=.env.prod.local scripts/db-check.mjs",
+        "staff:add:prod": "node --env-file=.env.prod.local scripts/add-staff.mjs add"
     },
     "dependencies": {
         "@iconify/react": "^6.0.4",

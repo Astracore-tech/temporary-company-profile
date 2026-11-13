@@ -75,7 +75,7 @@ const localDate = (offsetDays = 0) => {
 
 // ── 1. Public pages and preserved links ──────────────────────────────────
 console.log(`\nVerifying ${BASE} (run ${run})\n`)
-for (const p of ['/', '/services/', '/portfolio/', '/about/', '/contact/', '/sitemap.xml', '/robots.txt']) {
+for (const p of ['/', '/services/', '/portfolio/', '/about/', '/contact/', '/privacy/', '/sitemap.xml', '/robots.txt']) {
   const r = await http(p)
   check(`GET ${p} → 200`, r.status === 200, `got ${r.status}`)
 }
@@ -86,6 +86,9 @@ for (const p of ['/', '/services/', '/portfolio/', '/about/', '/contact/', '/sit
   check('Home has no invented social proof', !/50\+ trusted|pravatar|Dr\. Joseph Kiprop/.test(home.text))
   const contact = await http('/contact/')
   check('Contact page has the inquiry form', contact.text.includes('id="inquiry"') && contact.text.includes('name="problem"'))
+  check('Inquiry form links to the privacy notice', contact.text.includes('href="/privacy/"'))
+  const privacy = await http('/privacy/')
+  check('Privacy notice covers retention, storage abroad and the ODPC', /24 months/.test(privacy.text) && /United States/.test(privacy.text) && /Data Protection Commissioner/.test(privacy.text))
   const robots = await http('/robots.txt')
   check('robots.txt disallows /inbox/', robots.text.includes('Disallow: /inbox/'))
 }
