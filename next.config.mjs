@@ -52,7 +52,10 @@ const nextConfig = {
         headers: [
           { key: "X-Robots-Tag", value: "noindex, nofollow" },
           { key: "Cache-Control", value: "no-store" },
-          { key: "Referrer-Policy", value: "no-referrer" },
+          // same-origin, not no-referrer: no-referrer makes Chrome send
+          // `Origin: null` on the inbox's own form posts, which the server's
+          // cross-site check then refuses. Other sites still get no referrer.
+          { key: "Referrer-Policy", value: "same-origin" },
         ],
       },
     ];

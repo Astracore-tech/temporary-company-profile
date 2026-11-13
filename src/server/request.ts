@@ -19,10 +19,16 @@ export function clientFingerprint(headers: Headers | Record<string, unknown>): s
  * Rejects cross-site form posts. Browsers send Origin on POST; a missing
  * header (curl, server-to-server) is allowed because the session cookie is
  * SameSite=Lax and staff routes also require it.
+ *
+ * A browser sends `Origin: null` instead of the real origin when the page's
+ * referrer policy is no-referrer (or the user's browser forces it). That is
+ * accepted only when the browser itself vouches that the request came from
+ * this site via Sec-Fetch-Site, which page scripts cannot set.
  */
 export function isSameOrigin(req: Request): boolean {
   const origin = req.headers.get('origin')
   if (!origin) return true
+  if (origin === 'null') return req.headers.get('sec-fetch-site') === 'same-origin'
   try {
     const host = req.headers.get('x-forwarded-host') || req.headers.get('host')
     return new URL(origin).host === host
