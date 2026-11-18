@@ -69,6 +69,11 @@ export const metadata: Metadata = {
   publisher: SITE.name,
   alternates: { canonical: "/" },
   category: "technology",
+  appleWebApp: {
+    capable: true,
+    title: SITE.shortName,
+    statusBarStyle: "black-translucent",
+  },
   openGraph: {
     type: "website",
     locale: SITE.locale,
@@ -139,6 +144,7 @@ export default function RootLayout({
       className={`${inter.variable} ${syne.variable} ${plexMono.variable}`}
       suppressHydrationWarning>
       <head>
+        <link rel="preconnect" href="https://cdn.jsdelivr.net" crossOrigin="anonymous" />
         <link
           rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.47.0/tabler-icons.min.css"
