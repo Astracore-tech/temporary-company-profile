@@ -197,9 +197,14 @@ export default async function DepartmentPage({ params }: Params) {
             )}
 
             {d.productNote && (
-              <p className='ac-small mt-6 max-w-2xl border-l border-[var(--ac-line-strong)] pl-3'>
-                {d.productNote}
-              </p>
+              <div className='mt-6 max-w-2xl border-l border-[var(--ac-line-strong)] pl-3'>
+                <p className='ac-small'>{d.productNote}</p>
+                {d.productHref && (
+                  <Link href={d.productHref} className='ac-link mt-3 inline-flex'>
+                    Explore Amplifyr
+                  </Link>
+                )}
+              </div>
             )}
 
             <div className='flex flex-wrap gap-x-6 gap-y-3 pt-8'>

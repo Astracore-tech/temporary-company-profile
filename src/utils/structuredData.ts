@@ -120,6 +120,20 @@ export const departmentSchema = (department: Service) => ({
   },
 })
 
+/** The Amplifyr product page. No pricing, ratings or usage claims. */
+export const amplifyrSchema = (app: { name: string; summary: string }) => ({
+  "@type": "SoftwareApplication",
+  "@id": absoluteUrl("/amplifyr/#app"),
+  name: app.name,
+  description: app.summary,
+  url: absoluteUrl("/amplifyr/"),
+  applicationCategory: "BusinessApplication",
+  operatingSystem: "Web",
+  inLanguage: SITE.language,
+  creator: { "@id": absoluteUrl("/#organization") },
+  publisher: { "@id": absoluteUrl("/#organization") },
+})
+
 /** One portfolio entry. Deliberately no ratings, clients or dates we can't vouch for. */
 export const projectSchema = (p: Project) => ({
   "@type": "CreativeWork",

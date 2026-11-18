@@ -62,6 +62,7 @@ The script refuses to run against astracoretech.org.
 | Department pages (`/services/<slug>/`) | `src/app/(site)/services/[slug]/page.tsx` |
 | Solutions by symptom (`/solutions/`) | `src/content/solutions.ts` |
 | Insights notes (`/insights/`) | `src/content/insights.ts` |
+| Amplifyr product page (`/amplifyr/`) | `src/content/amplifyr.ts` |
 | Portfolio projects (`/portfolio/`) | `src/content/portfolio.ts` |
 | Privacy notice (`/privacy/`) | `src/content/privacy.ts` |
 | Call to action, "how it works", FAQ, about facts and tools | `src/content/site-copy.ts` |

@@ -22,6 +22,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "monthly" as const,
     })),
     { path: "/solutions", priority: 0.8, changeFrequency: "monthly" as const },
+    { path: "/amplifyr", priority: 0.7, changeFrequency: "monthly" as const },
     { path: "/portfolio", priority: 0.8, changeFrequency: "monthly" as const },
     ...projects.map((p) => ({
       path: `/portfolio/${p.slug}`,

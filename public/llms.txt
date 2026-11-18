@@ -20,9 +20,15 @@ Founded: 2023. Structure: two equal co-founders. Engineering and operations: Mar
 - Combined: implementation followed by ongoing management.
 - Prices are not published. Scope, cost and responsibilities are agreed in writing.
 
+## Amplifyr
+
+Amplifyr is a separate product within AstraCore: a two-sided creator marketplace where brands run creator campaigns and creators submit work for review. It covers campaign briefs, discovery, applications, submissions, roles and dashboards, messaging, disputes, audit logs, escrow and milestone records, an AI brief assistant and a trend view. It is in development. This page is an overview, not an integration, and does not claim live production payment processing or live platform API verification.
+https://www.astracoretech.org/amplifyr/
+
 ## Key pages
 
 - Home: https://www.astracoretech.org/
+- Amplifyr product: https://www.astracoretech.org/amplifyr/
 - Services: https://www.astracoretech.org/services/
 - Solutions by symptom: https://www.astracoretech.org/solutions/
 - Our work: https://www.astracoretech.org/portfolio/

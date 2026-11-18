@@ -45,6 +45,9 @@ const Footer: FC = () => {
               <Link href={PRIMARY_CTA.href} className='ac-btn ac-btn-primary'>
                 {PRIMARY_CTA.label}
               </Link>
+              <p className='ac-small mt-5'>
+                Product: <Link href='/amplifyr/' className='ac-link'>Amplifyr</Link>
+              </p>
             </div>
           </div>
 

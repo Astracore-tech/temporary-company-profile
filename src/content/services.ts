@@ -36,6 +36,8 @@ export type Service = {
   outcome: string
   /** A related product or honest note shown on the department page. */
   productNote?: string
+  /** Optional product page for the note above. */
+  productHref?: string
   /** Used only when no finished project can honestly be shown for the department. */
   proofNote?: string
 }
@@ -87,6 +89,7 @@ export const services: Service[] = [
     outcome: 'Consistent execution and clearer reporting.',
     productNote:
       'Amplifyr is our marketing product. Its development remains separate unless integration is explicitly approved.',
+    productHref: '/amplifyr/',
   },
   {
     id: 'workflow-automation',
