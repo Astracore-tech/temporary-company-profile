@@ -24,7 +24,8 @@ const page = () => (
       )}
     />
     <HeroSub
-      title="Privacy Notice"
+      eyebrow="Legal"
+      title="Privacy notice"
       description={`How this website handles your personal data. Last updated ${PRIVACY_UPDATED}.`}
       breadcrumbLinks={[
         { href: "/", text: "Home" },
@@ -37,7 +38,7 @@ const page = () => (
           <ol className="sticky top-28 space-y-2.5">
             {privacySections.map((s) => (
               <li key={s.id}>
-                <a href={`#${s.id}`} className="ac-small hover:text-[var(--ac-accent)] transition-colors">
+                <a href={`#${s.id}`} className="ac-small hover:text-[var(--ac-ink)] transition-colors">
                   {s.heading}
                 </a>
               </li>
@@ -65,7 +66,7 @@ const page = () => (
                   <ul className="space-y-2.5">
                     {s.list.map((item) => (
                       <li key={item} className="ac-body flex gap-3">
-                        <span className="text-[var(--ac-accent)]" aria-hidden="true">
+                        <span className="text-[var(--ac-ink-4)]" aria-hidden="true">
                           —
                         </span>
                         <span>{item}</span>
@@ -81,7 +82,7 @@ const page = () => (
           <section id="contact-us" className="!p-0 scroll-mt-28">
             <h2 className="ac-h3 mb-4">Contact us</h2>
             <address className="ac-body not-italic space-y-1">
-              <span className="block">{SITE.name} — data protection contact: the founder</span>
+              <span className="block">{SITE.name} — data protection contact: Mark, co-founder</span>
               <span className="block">
                 Email:{" "}
                 <a href={`mailto:${SITE.email}`} className="ac-link normal-case tracking-normal">

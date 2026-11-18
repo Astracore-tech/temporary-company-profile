@@ -71,7 +71,7 @@ export const privacySections: PrivacySection[] = [
     id: 'who-sees-it',
     heading: 'Who can see it',
     paragraphs: [
-      'Only AstraCore staff with a sign-in to our private inquiry inbox, currently the founder. Every page and action in the inbox checks the sign-in on our server.',
+      'Only AstraCore staff with a sign-in to our private inquiry inbox, currently Mark, co-founder. Every page and action in the inbox checks the sign-in on our server.',
       'We use these service providers to run the site. They process data on our behalf and are not allowed to use it for their own purposes:',
     ],
     list: [

@@ -4,7 +4,7 @@ import SiteLayout from "./(site)/layout";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Page Not Found",
+  title: "Page not found",
   description: "The page you are looking for does not exist.",
   robots: { index: false, follow: true },
 };
@@ -13,13 +13,14 @@ export const metadata: Metadata = {
 const ErrorPage = () => {
   const breadcrumbLinks = [
     { href: "/", text: "Home" },
-    { href: "/contact", text: "404" },
+    { href: "/404", text: "Page not found" },
   ];
   return (
     <SiteLayout>
       <HeroSub
-        title="404"
-        description="We Can't Seem to Find The Page You're Looking For."
+        eyebrow="404"
+        title="Page not found"
+        description="That address does not match a page on this site."
         breadcrumbLinks={breadcrumbLinks}
       />
       <NotFound />

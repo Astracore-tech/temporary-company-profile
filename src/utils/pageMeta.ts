@@ -26,14 +26,17 @@ export function pageMetadata({
   type = "website",
   publishedTime,
 }: Args): Metadata {
-  const url = absoluteUrl(path)
+  // next.config sets trailingSlash: true. Canonicals and OG URLs must match,
+  // otherwise every canonical points at a redirect.
+  const canonicalPath = path === "/" ? "/" : `${path.replace(/\/$/, "")}/`
+  const url = absoluteUrl(canonicalPath)
   const ogImage = image || SITE.ogImage
   const fullTitle = `${title} | ${SITE.name}`
 
   return {
     title,
     description,
-    alternates: { canonical: path },
+    alternates: { canonical: canonicalPath },
     openGraph: {
       type,
       url,

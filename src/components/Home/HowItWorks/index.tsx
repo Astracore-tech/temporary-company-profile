@@ -6,29 +6,23 @@ const HowItWorks = () => (
   <section className='border-t border-[var(--ac-line)]' id='how-it-works'>
     <div className='ac-container'>
       <SectionHeading
-        eyebrow='How It Works'
+        eyebrow='How it works'
         title={
           <>
             From first message
             <br />
-            <span className='ac-muted-line'>to a clear proposal</span>
+            <span className='ac-muted-line'>to a written proposal</span>
           </>
         }
-        description='The same process whether you are in Nairobi or anywhere else.'
+        description='The same process whether you are in Nairobi or elsewhere in Africa.'
       />
-      <ol className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-px bg-[var(--ac-line)] border border-[var(--ac-line)]'>
+
+      <ol className='grid grid-cols-1 gap-x-8 gap-y-10 sm:grid-cols-2 lg:grid-cols-4'>
         {howItWorks.map((step, i) => (
-          <li
-            key={step.title}
-            className='bg-[var(--ac-surface)] p-6 sm:p-8'
-            data-aos='fade-up'
-            data-aos-duration='700'
-            data-aos-delay={`${i * 80}`}>
-            <span className='text-[10px] font-bold tracking-[0.25em] text-[var(--ac-accent)]'>
-              {String(i + 1).padStart(2, '0')}
-            </span>
-            <h3 className='ac-h4 mt-3 mb-2.5'>{step.title}</h3>
-            <p className='ac-small'>{step.body}</p>
+          <li key={step.title} className='border-t border-[var(--ac-line)] pt-5'>
+            <span className='ac-index'>{String(i + 1).padStart(2, '0')}</span>
+            <h3 className='ac-h4 mt-3'>{step.title}</h3>
+            <p className='ac-small mt-2.5'>{step.body}</p>
           </li>
         ))}
       </ol>

@@ -1,6 +1,6 @@
 import { SITE, absoluteUrl, sameAs } from "./site"
-import { services } from "@/content/services"
-import { projects, type Project } from "@/content/portfolio"
+import { services, type Service } from "@/content/services"
+import { projects, isRunning, type Project } from "@/content/portfolio"
 
 /** The company itself — the anchor entity every other node points back to. */
 export const organizationSchema = () => ({
@@ -16,6 +16,8 @@ export const organizationSchema = () => ({
   image: absoluteUrl(SITE.ogImage),
   description: SITE.description,
   foundingDate: SITE.founded,
+  knowsAbout: services.map((service) => service.title),
+  areaServed: SITE.areaServed.map((name) => ({ "@type": "Place", name })),
   email: SITE.email,
   telephone: SITE.telephone,
   address: {
@@ -75,10 +77,36 @@ export const serviceCatalogSchema = () => ({
       "@type": "Service",
       name: service.title,
       description: service.summary,
+      url: absoluteUrl(`/services/${service.slug}/`),
       provider: { "@id": absoluteUrl("/#organization") },
       areaServed: SITE.areaServed.map((name) => ({ "@type": "Place", name })),
     },
   })),
+})
+
+/** One department page, with its visible service list. */
+export const departmentSchema = (department: Service) => ({
+  "@type": "Service",
+  "@id": absoluteUrl(`/services/${department.slug}/#service`),
+  name: department.title,
+  description: department.summary,
+  url: absoluteUrl(`/services/${department.slug}/`),
+  serviceType: department.title,
+  provider: { "@id": absoluteUrl("/#organization") },
+  areaServed: SITE.areaServed.map((name) => ({ "@type": "Place", name })),
+  hasOfferCatalog: {
+    "@type": "OfferCatalog",
+    name: department.title,
+    itemListElement: department.includes.map((name, i) => ({
+      "@type": "Offer",
+      position: i + 1,
+      itemOffered: {
+        "@type": "Service",
+        name,
+        provider: { "@id": absoluteUrl("/#organization") },
+      },
+    })),
+  },
 })
 
 /** One portfolio entry. Deliberately no ratings, clients or dates we can't vouch for. */
@@ -87,11 +115,12 @@ export const projectSchema = (p: Project) => ({
   "@id": absoluteUrl(`/portfolio/${p.slug}/#work`),
   name: p.name,
   description: p.summary,
+  abstract: p.proof,
   url: absoluteUrl(`/portfolio/${p.slug}/`),
   genre: p.kind,
   keywords: p.stack.join(", "),
   creator: { "@id": absoluteUrl("/#organization") },
-  creativeWorkStatus: p.status === "in-development" ? "Incomplete" : "Published",
+  creativeWorkStatus: isRunning(p.status) ? "Published" : "Incomplete",
 })
 
 export const portfolioListSchema = () => ({

@@ -1,0 +1,40 @@
+# AstraCore Technologies
+
+> AstraCore Technologies is a full-service business technology and growth company in Nairobi, Kenya. We build, automate and manage the systems that help businesses operate efficiently and grow. Initial market: Kenya, then East Africa and the wider African market.
+
+Contact: info@astracoretech.org | +254 739 045 698 | https://www.astracoretech.org/
+Founded: 2023. Structure: two equal co-founders. Engineering and operations: Mark.
+
+## Departments
+
+- Marketing and growth — https://www.astracoretech.org/services/marketing-growth/ — digital marketing, social media, advertising, SEO, content, email, lead generation, marketing automation, analytics and reporting. Amplifyr is the associated marketing product; its development remains separate.
+- AI and business automation — https://www.astracoretech.org/services/ai-automation/ — business process automation, AI assistants, customer service, email and WhatsApp automation, CRM, lead qualification, scheduling, document processing, reporting, finance automation and API integrations.
+- Software development — https://www.astracoretech.org/services/software-development/ — custom business software, CRMs, inventory, job tracking, dashboards, portals, databases, APIs and integrations.
+- Website development and management — https://www.astracoretech.org/services/website-development/ — business and corporate websites, e-commerce, web applications, landing pages, redesign, maintenance, performance, technical SEO, security and accessibility.
+- Managed business operations — https://www.astracoretech.org/services/managed-operations/ — managed communication workflows, inquiry management, CRM administration, follow-up, appointment coordination, monitoring, operational reporting and continuous improvement.
+
+## Engagement models
+
+- Project-based: a defined implementation or build.
+- Managed: a recurring contract for maintenance, monitoring, operations or marketing execution.
+- Combined: implementation followed by ongoing management.
+- Prices are not published. Scope, cost and responsibilities are agreed in writing.
+
+## Key pages
+
+- Home: https://www.astracoretech.org/
+- Services: https://www.astracoretech.org/services/
+- Solutions by symptom: https://www.astracoretech.org/solutions/
+- Our work: https://www.astracoretech.org/portfolio/
+- Insights: https://www.astracoretech.org/insights/
+- About: https://www.astracoretech.org/about/
+- Contact: https://www.astracoretech.org/contact/
+- Privacy: https://www.astracoretech.org/privacy/
+
+## Evidence boundary
+
+The work page describes AstraCore's own systems, with honest statuses: in daily use, internal tool, live on this site, in development, or earlier exploration. It does not present internal tools or prototypes as client results. No paid client case studies, invented testimonials or unverified performance figures are published. When a client project is complete and approved, its evidence can be added.
+
+## Crawling
+
+Public pages may be indexed. The founder inbox at /inbox/ and the API at /api/ are private and must not be indexed. No content on this site is a guarantee of AI recommendation or ranking.
