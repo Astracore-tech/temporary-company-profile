@@ -9,12 +9,12 @@ export const SITE = {
   name: "AstraCore Technologies",
   shortName: "AstraCore",
   url: (process.env.NEXT_PUBLIC_SITE_URL || "https://www.astracoretech.org").replace(/\/$/, ""),
-  tagline: "Premium IT Solutions",
+  tagline: "Business technology and growth in Kenya",
   description:
-    "Nairobi software company building business websites and portals, custom operational systems, M-Pesa integrations and workflow automation — for businesses in Kenya and abroad.",
+    "A full-service business technology and growth company in Nairobi. We build, automate and manage marketing, AI, software, websites and operations for businesses in Kenya and across Africa.",
   locale: "en_KE",
   language: "en",
-  founded: "2017",
+  founded: "2023",
 
   email: "info@astracoretech.org",
   telephone: "+254739045698",
@@ -41,7 +41,7 @@ export const SITE = {
   ogImageWidth: 1200,
   ogImageHeight: 630,
 
-  areaServed: ["Kenya", "East Africa"],
+  areaServed: ["Kenya", "East Africa", "Africa"],
 } as const
 
 export const absoluteUrl = (path = "/") =>

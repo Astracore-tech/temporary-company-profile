@@ -12,7 +12,7 @@ import {
 export const metadata = pageMetadata({
   title: "Contact",
   description:
-    "Tell AstraCore Technologies what you want to build or fix. Send a short inquiry, email info@astracoretech.org or call 0739 045 698.",
+    "Request a consultation or ask for a quote from AstraCore Technologies. Tell us what is getting in the way, email info@astracoretech.org or call 0739 045 698.",
   path: "/contact",
 });
 
@@ -33,9 +33,29 @@ const page = () => (
       )}
     />
     <HeroSub
-      title="Contact Us"
-      description="Describe the problem in your own words. The founder reads every inquiry and replies on the email or phone number you give."
+      eyebrow="Contact"
+      title="Request a consultation"
+      description="Request a consultation or ask for a quote. Tell us what is getting in the way, in your own words. Mark reads every request and replies on the email or phone number you give."
       breadcrumbLinks={breadcrumbLinks}
+      aside={
+        <div className="border-t border-[var(--ac-line)] pt-5">
+          <p className="ac-label">What happens next</p>
+          <ol className="mt-4">
+            <li className="grid grid-cols-[24px_minmax(0,1fr)] gap-3 border-b border-[var(--ac-line)] py-3">
+              <span className="ac-index pt-0.5">01</span>
+              <p className="ac-small">We reply on the email or phone number you give.</p>
+            </li>
+            <li className="grid grid-cols-[24px_minmax(0,1fr)] gap-3 border-b border-[var(--ac-line)] py-3">
+              <span className="ac-index pt-0.5">02</span>
+              <p className="ac-small">We ask what we need and arrange a short conversation.</p>
+            </li>
+            <li className="grid grid-cols-[24px_minmax(0,1fr)] gap-3 py-3">
+              <span className="ac-index pt-0.5">03</span>
+              <p className="ac-small">If it fits, you get a written proposal to review.</p>
+            </li>
+          </ol>
+        </div>
+      }
     />
     <InquirySection />
   </>

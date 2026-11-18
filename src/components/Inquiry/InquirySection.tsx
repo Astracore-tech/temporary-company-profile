@@ -1,47 +1,61 @@
 import React from 'react'
 import InquiryForm from './InquiryForm'
-import { PRIMARY_CTA } from '@/content/site-copy'
+import { INQUIRY_HEADING } from '@/content/site-copy'
 import { SITE } from '@/utils/site'
 
 /**
  * The one inquiry journey, used on the home page (#contact, kept for existing
  * links) and the contact page (#inquiry).
  */
-const InquirySection = ({ id = 'inquiry' }: { id?: string }) => (
+const InquirySection = ({
+  id = 'inquiry',
+  defaultService,
+}: {
+  id?: string
+  defaultService?: string
+}) => (
   <section className='border-t border-[var(--ac-line)] scroll-mt-20' id={id}>
     <div className='ac-container'>
-      <div className='grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-20 items-start'>
+      <div className='grid grid-cols-1 items-start gap-10 lg:grid-cols-12 lg:gap-16'>
         <div className='lg:col-span-5'>
-          <span className='ac-eyebrow'>Start Here</span>
-          <h2 className='ac-h2 mt-6 mb-6'>{PRIMARY_CTA.label}.</h2>
-          <p className='ac-body mb-8 max-w-md'>
-            Three things are enough: your name, how to reach you, and the problem in your own words.
-            You don’t need to know which service you need.
+          <span className='ac-eyebrow'>Start here</span>
+          <h2 className='ac-h2 mt-4'>{INQUIRY_HEADING}</h2>
+          <p className='ac-body mt-5 max-w-md'>
+            Three things are enough: your name, how to reach you, and the problem in your own
+            words. You do not need to know which service you need or have a brief ready.
           </p>
 
-          <dl className='space-y-5 py-6 border-t border-b border-[var(--ac-line)] max-w-md'>
+          <dl className='mt-8 space-y-4 border-t border-[var(--ac-line)] pt-6'>
             <div>
-              <dt className='text-[var(--ac-ink-3)] text-[10px] uppercase tracking-[0.22em] mb-1.5'>Email</dt>
-              <dd>
-                <a href={`mailto:${SITE.email}`} className='ac-h4 hover:text-[var(--ac-accent)] transition-colors break-all'>
+              <dt className='ac-label'>Email</dt>
+              <dd className='mt-1'>
+                <a
+                  href={`mailto:${SITE.email}`}
+                  className='ac-h4 break-all transition-colors hover:text-[var(--ac-accent)]'>
                   {SITE.email}
                 </a>
               </dd>
             </div>
             <div>
-              <dt className='text-[var(--ac-ink-3)] text-[10px] uppercase tracking-[0.22em] mb-1.5'>Phone</dt>
-              <dd>
-                <a href={`tel:${SITE.telephone}`} className='ac-h4 hover:text-[var(--ac-accent)] transition-colors'>
+              <dt className='ac-label'>Phone</dt>
+              <dd className='mt-1'>
+                <a
+                  href={`tel:${SITE.telephone}`}
+                  className='ac-h4 transition-colors hover:text-[var(--ac-accent)]'>
                   {SITE.telephoneDisplay}
                 </a>
               </dd>
             </div>
           </dl>
+
+          <p className='ac-small mt-6 max-w-sm'>
+            Prefer to write directly? Email or call. Mark reads both.
+          </p>
         </div>
 
-        <div className='lg:col-span-7 w-full'>
-          <div className='ac-card p-5 sm:p-8 lg:p-10 relative'>
-            <InquiryForm />
+        <div className='w-full lg:col-span-7'>
+          <div className='ac-card p-5 sm:p-8 lg:p-10'>
+            <InquiryForm defaultService={defaultService} />
           </div>
         </div>
       </div>

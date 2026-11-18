@@ -22,8 +22,9 @@ npm run dev                     # http://localhost:3000
 For a production-like preview, use `npm run build && npm start -- -p 3100` and
 set `NEXTAUTH_URL=http://localhost:3100`.
 
-- Public site: `/`, `/services/`, `/portfolio/` (and one page per project),
-  `/about/`, `/contact/`
+- Public site: `/`, `/services/`, one page per department under
+  `/services/<department>/`, `/solutions/`, `/portfolio/` (and one page per
+  project), `/insights/`, `/about/`, `/contact/`
 - Founder inbox: `/inbox/` (sign in at `/inbox/sign-in/`)
 
 Local data lives in `.data/` (git-ignored). Use synthetic records only.
@@ -57,10 +58,16 @@ The script refuses to run against astracoretech.org.
 
 | What | Where |
 | --- | --- |
-| Service descriptions shown on the site | `src/content/services.ts` |
+| Five departments and their service lists | `src/content/services.ts` |
+| Department pages (`/services/<slug>/`) | `src/app/(site)/services/[slug]/page.tsx` |
+| Solutions by symptom (`/solutions/`) | `src/content/solutions.ts` |
+| Insights notes (`/insights/`) | `src/content/insights.ts` |
+| Amplifyr product page (`/amplifyr/`) | `src/content/amplifyr.ts` |
 | Portfolio projects (`/portfolio/`) | `src/content/portfolio.ts` |
 | Privacy notice (`/privacy/`) | `src/content/privacy.ts` |
-| Call to action, "how it works", FAQ | `src/content/site-copy.ts` |
+| Call to action, "how it works", FAQ, about facts and tools | `src/content/site-copy.ts` |
+| Interactive hero console | `src/components/Home/Hero/SystemPreview.tsx` |
+| Motion primitives (count-up, reveal, flow line) | `src/components/Common/`, `src/components/Portfolio/FlowRail.tsx` |
 | Pipeline stages and sources | `src/lib/pipeline.ts` |
 | Inquiry storage and rules | `src/server/inquiries.ts` |
 | Public form endpoint | `src/app/api/inquiries/route.ts` |
@@ -69,14 +76,46 @@ The script refuses to run against astracoretech.org.
 | Staff sign-in | `src/server/auth.ts` (next-auth credentials, `staff_users` table) |
 
 You can edit the public copy without touching the workflow code. The workflow
-reads only each service's `id` and `title`, for the optional "closest service"
-field. Don't rename an `id` once inquiries reference it.
+reads only each department's `id` and `title`, for the optional "closest
+department" field. Don't rename an `id` once inquiries reference it; change
+the title and copy instead. The `slug` is the public URL.
 
 The portfolio lists only AstraCore's own work, each entry with an honest
-`status`. Unfinished scope goes in `planned`, never in `built`, and unfinished
-projects are left out of the "see it in our work" links on `/services/`. Don't
-add client names, figures or screenshots of real data without the founder's
-approval. A project's `slug` is its URL, so don't rename it once published.
+`status`. Unfinished scope goes in `planned`, never in `built`. Use
+`in-development` for active work and `explored` for earlier product
+exploration; both are left out of the proof sections on `/portfolio/` and the
+department pages. Each entry also states what the work proves (`proof`) and
+what it replaces (`replaces`), so `/portfolio/` reads as evidence rather than a
+gallery. The page maps every department to the projects that can honestly
+prove it; a department with no shipped work says so instead of borrowing an
+unfinished project. Don't add client names, figures or screenshots of real data
+without the founder's approval. A project's `slug` is its URL, so don't rename
+it once published.
+
+## SEO and security
+
+- Every page has a unique title, description, canonical URL and Open Graph
+  metadata. `pageMetadata` adds the trailing slash that `next.config` uses.
+- `/sitemap.xml` includes the home, services, departments, solutions, work,
+  insights, about, contact and privacy pages.
+- `/robots.txt` allows public pages and blocks `/api/` and `/inbox/`.
+- Structured data covers the organization, local business, website, service
+  catalog, each department and its visible services, each project and the
+  insights notes. It is only added where the content is visible.
+- `/llms.txt` is a short public summary for AI crawlers. It is not a ranking
+  guarantee and does not replace the HTML pages.
+- `next.config.mjs` sends `X-Content-Type-Options`, `X-Frame-Options`,
+  `Permissions-Policy` and HSTS. The inbox adds `noindex`, `no-store` and
+  `no-referrer`.
+- `NEXT_PUBLIC_SITE_URL` drives canonicals, Open Graph URLs and the sitemap, so
+  set it to `https://www.astracoretech.org` in production.
+- `NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION` and
+  `NEXT_PUBLIC_BING_SITE_VERIFICATION` add the verification meta tags when set.
+- Syne, Inter and IBM Plex Mono are self-hosted through `next/font`. The Tabler
+  icon webfont still comes from jsDelivr; a local subset is the next performance
+  improvement.
+- `/our-work/` redirects to `/portfolio/`; `/portfolio/` stays the single
+  canonical work index.
 
 ## Staff accounts
 
@@ -117,6 +156,7 @@ Ipsum blog posts. They now redirect permanently (308), configured in
 | `/portfolio/<old case-study slug>/` (13 slugs, e.g. `cozycasa`) | `/portfolio/` |
 | `/blog/` | `/` |
 | `/blog/<slug>/` | `/` |
+| `/our-work/` | `/portfolio/` |
 
 `/portfolio/` itself is live again, now showing real work. The old case-study
 slugs are listed one by one, because a wildcard would also redirect the new

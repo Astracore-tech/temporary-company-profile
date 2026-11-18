@@ -11,7 +11,7 @@
  * Don't rename a `slug` once published — it is the page URL.
  */
 
-export type ProjectStatus = 'in-use' | 'internal-tool' | 'in-development' | 'live'
+export type ProjectStatus = 'in-use' | 'internal-tool' | 'in-development' | 'live' | 'explored'
 
 export type Project = {
   slug: string
@@ -23,9 +23,13 @@ export type Project = {
   summary: string
   /** Who it is for and what was going wrong. */
   problem: string
+  /** What the work demonstrates to a buyer, in one or two sentences. */
+  proof: string
+  /** The tools or process this replaces, in plain words. */
+  replaces: string
   /** What exists today. */
   built: string[]
-  /** Scope that is designed but not finished — shown only for in-development work. */
+  /** Scope that is designed or explored but not built. */
   planned?: string[]
   /** How the pieces fit, in order. Rendered as a flow. */
   flow: { step: string; detail: string }[]
@@ -43,7 +47,12 @@ export const STATUS_LABEL: Record<ProjectStatus, string> = {
   'internal-tool': 'Built for our own sales work',
   'in-development': 'In development',
   live: 'Live on this site',
+  explored: 'Earlier exploration',
 }
+
+/** Work that actually runs today. Explored and in-development work is not proof. */
+export const isRunning = (status: ProjectStatus) =>
+  status === 'in-use' || status === 'internal-tool' || status === 'live'
 
 export const projects: Project[] = [
   {
@@ -56,6 +65,9 @@ export const projects: Project[] = [
       'The system our own remote team runs the company on: projects and tasks, HR and leave, finance, compliance deadlines and documents, behind one sign-in.',
     problem:
       'A remote team working across several projects had its work spread over a task tool, spreadsheets, chat threads and shared folders. Approvals waited on whoever remembered them, nobody could see workload at a glance, and legal and tax deadlines depended on someone keeping a calendar up to date.',
+    proof:
+      'That we can build and run a multi-module system, with permissions checked on the server and a migration path from the tools a team already uses — not a front end with a database behind it.',
+    replaces: 'A task tool, spreadsheets, chat threads and shared folders.',
     built: [
       'Projects and tasks with kanban boards, checklists, comments, attachments and an activity trail',
       'Two-way task sync with ClickUp, so the team could move over without a hard cut-off',
@@ -103,6 +115,9 @@ export const projects: Project[] = [
       'A service that watches public social posts around the clock, picks out businesses asking for help we offer, and sends a short daily list for a person to follow up.',
     problem:
       'Finding businesses that are publicly asking for a website, a system or automation meant scrolling social feeds by hand. Most posts were noise or spam, good ones were found days late, and nothing was recorded, so the same post could be looked at twice or missed entirely.',
+    proof:
+      'That we can run an always-on service rather than a demo: a durable queue, retries, monitoring and a person reviewing the output before anything is sent.',
+    replaces: 'Manual scrolling of social feeds and notes kept in chat.',
     built: [
       'A 24/7 listener on the public Bluesky feed, with a cheap pre-filter in front of the expensive steps',
       'A persistent work queue, so nothing is lost on a restart and every post is processed once',
@@ -135,20 +150,23 @@ export const projects: Project[] = [
       },
     ],
     stack: ['Python', 'SQLite', 'Docker', 'Prometheus metrics', 'Telegram Bot API', 'Activepieces'],
-    services: ['workflow-automation'],
+    services: ['workflow-automation', 'marketing-growth'],
   },
   {
     slug: 'skillpath-academy',
     name: 'SkillPath Academy',
-    kind: 'Learning platform — our own product',
-    status: 'in-development',
+    kind: 'Product exploration — our own',
+    status: 'explored',
     icon: 'ti-school',
     summary:
-      'An African-first platform for practical digital skills that we are building: conversational onboarding, booking, M-Pesa payment and live classes, designed for phones on slow connections.',
+      'An earlier product exploration: an African-first platform for practical digital skills, designed around phones, slow connections, M-Pesa payment and live classes. Not a current priority.',
     problem:
       'Learners find short courses through WhatsApp, posters and referrals, then have to message someone to ask about schedules and prices, pay by M-Pesa, and wait for a person to confirm and send joining details. Every step is manual, and people drop off between them.',
+    proof:
+      'That we can think through a market’s real constraints — phones, slow connections and M-Pesa — and write a phased plan before committing to code.',
+    replaces: 'WhatsApp questions, manual payment confirmation and hand-sent joining details.',
     built: [
-      'Product specification, user roles and a phased 90-day build plan',
+      'Product specification, user roles and a phased build plan',
       'Project tracking for the build inside AstraCore OS',
     ],
     planned: [
@@ -177,9 +195,9 @@ export const projects: Project[] = [
       },
     ],
     stack: ['Next.js', 'Tailwind CSS', 'Node.js', 'PostgreSQL', 'M-Pesa', 'n8n'],
-    // M-Pesa checkout is planned, not built, so it is not tagged as M-Pesa work yet.
-    // (Unfinished projects are also left out of the "see it in our work" links.)
-    services: ['websites-portals', 'workflow-automation'],
+    // M-Pesa checkout is planned, not built, so it is not tagged as finance work.
+    // (Explored projects are also left out of the "see it in our work" links.)
+    services: ['websites-portals'],
   },
   {
     slug: 'inquiry-inbox',
@@ -191,6 +209,9 @@ export const projects: Project[] = [
       'The site you are on, and the private inbox behind its inquiry form, where every lead is tracked from first message to first payment and onboarding.',
     problem:
       'Leads arrived through the website, WhatsApp, referrals and meetings, and lived in whichever app they came through. Follow-ups depended on memory, and nobody could see which accepted proposals were still waiting on a first payment.',
+    proof:
+      'That we can ship a public site and a private workflow together, with data handling designed in rather than added afterwards.',
+    replaces: 'Leads scattered across the website, WhatsApp, referrals and meeting notes.',
     built: [
       'A short, mobile-friendly inquiry form with checks done on the server',
       'Protection against double-clicks, retries and resubmits, so one inquiry is saved once',
@@ -215,16 +236,26 @@ export const projects: Project[] = [
       },
       {
         title: 'Personal details stay out of URLs and logs',
-        body: 'Inquiry text and contact details are never placed in a URL, analytics or an application log, only in the database the founder controls.',
+        body: 'Inquiry text and contact details are never placed in a URL, analytics or an application log, only in the database Mark controls.',
       },
     ],
     stack: ['Next.js 16', 'React 19', 'TypeScript', 'NextAuth', 'libSQL', 'Tailwind CSS'],
-    services: ['websites-portals', 'operational-systems'],
+    services: ['websites-portals', 'operational-systems', 'workflow-automation'],
   },
 ]
 
 export const projectBySlug = (slug: string) => projects.find((p) => p.slug === slug)
 
-/** Finished work that shows a service in practice — unfinished projects don't count as proof. */
+/** Running work that shows a service in practice — explored or unfinished projects don't count. */
 export const projectsForService = (serviceId: string) =>
-  projects.filter((p) => p.status !== 'in-development' && p.services.includes(serviceId))
+  projects.filter((p) => isRunning(p.status) && p.services.includes(serviceId))
+
+/** Counts shown in the portfolio index. Every number is derived from the entries. */
+export const portfolioStats = {
+  total: projects.length,
+  running: projects.filter((p) => isRunning(p.status)).length,
+  inDevelopment: projects.filter((p) => p.status === 'in-development').length,
+  explored: projects.filter((p) => p.status === 'explored').length,
+  shipped: projects.reduce((total, p) => total + p.built.length, 0),
+  planned: projects.reduce((total, p) => total + (p.planned?.length ?? 0), 0),
+}

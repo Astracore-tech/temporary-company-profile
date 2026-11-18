@@ -48,11 +48,11 @@ function newSubmissionKey() {
   return `${h.slice(0, 8)}-${h.slice(8, 12)}-${h.slice(12, 16)}-${h.slice(16, 20)}-${h.slice(20)}`
 }
 
-const LABEL = 'block text-[var(--ac-ink-2)] text-sm font-semibold mb-2'
-const HINT = 'block text-[var(--ac-ink-4)] text-xs font-normal mt-1'
+const LABEL = 'block text-[var(--ac-ink-2)] text-[13px] font-medium mb-2'
+const HINT = 'block text-[var(--ac-ink-4)] text-[12px] font-normal leading-5 mt-1'
 // 16px text on small screens stops iOS zooming into the field on focus.
 const FIELD =
-  'w-full bg-[var(--ac-bg)] text-[var(--ac-ink)] text-base sm:text-sm px-4 py-3.5 border border-[var(--ac-line-strong)] focus:border-[var(--ac-accent)] placeholder:text-[var(--ac-ink-4)] rounded-none focus-visible:outline-none transition-colors aria-[invalid=true]:border-[#ff6b6b]'
+  'w-full bg-[var(--ac-surface-2)] text-[var(--ac-ink)] text-base sm:text-sm px-3.5 py-3 border border-[var(--ac-line-strong)] focus:border-[var(--ac-accent)] placeholder:text-[var(--ac-ink-4)] rounded-[2px] focus-visible:outline-none transition-colors aria-[invalid=true]:border-[#ff6b6b]'
 const ERROR = 'mt-2 text-sm text-[#ff8a8a]'
 
 const MESSAGES: Record<string, string> = {
@@ -61,9 +61,16 @@ const MESSAGES: Record<string, string> = {
   error: 'We couldn’t save your inquiry just now. Please try again.',
 }
 
-export default function InquiryForm({ variant = 'public' }: { variant?: Variant }) {
+export default function InquiryForm({
+  variant = 'public',
+  defaultService,
+}: {
+  variant?: Variant
+  defaultService?: string
+}) {
   const router = useRouter()
-  const [values, setValues] = useState<Values>(EMPTY)
+  const initialValues: Values = { ...EMPTY, serviceInterest: defaultService ?? '' }
+  const [values, setValues] = useState<Values>(initialValues)
   const [errors, setErrors] = useState<FieldErrors>({})
   const [status, setStatus] = useState<Status>({ kind: 'idle' })
   const keyRef = useRef<string | null>(null)
@@ -147,7 +154,7 @@ export default function InquiryForm({ variant = 'public' }: { variant?: Variant 
 
   function startAnother() {
     keyRef.current = newSubmissionKey()
-    setValues(EMPTY)
+    setValues(initialValues)
     setErrors({})
     setStatus({ kind: 'idle' })
     if (window.location.search) window.history.replaceState(null, '', window.location.pathname + '#inquiry')
@@ -159,20 +166,20 @@ export default function InquiryForm({ variant = 'public' }: { variant?: Variant 
         ref={statusRef}
         tabIndex={-1}
         role='status'
-        className='border border-[var(--ac-accent-line)] bg-[var(--ac-accent-dim)] p-6 sm:p-8 focus:outline-none'>
-        <p className='ac-h3 mb-3'>Thank you — your inquiry is saved.</p>
+        className='border border-[var(--ac-line)] bg-[var(--ac-surface-2)] p-6 sm:p-8 focus:outline-none'>
+        <p className='ac-h3 mb-3'>Thank you — your request is saved</p>
         <p className='ac-body'>
           {values.name ? `${values.name}, we` : 'We'} will reply
           {values.replyTo ? <> on <strong className='text-[var(--ac-ink)]'>{values.replyTo}</strong></> : null}.
           {status.reference ? (
             <>
               {' '}Your reference is{' '}
-              <strong className='text-[var(--ac-ink)] tracking-wider'>{status.reference}</strong>.
+              <strong className='text-[var(--ac-ink)]'>{status.reference}</strong>.
             </>
           ) : null}
         </p>
         <button type='button' onClick={startAnother} className='ac-link mt-6 cursor-pointer'>
-          Send another inquiry →
+          Send another request →
         </button>
       </div>
     )
@@ -285,7 +292,7 @@ export default function InquiryForm({ variant = 'public' }: { variant?: Variant 
         </div>
         <div>
           <label htmlFor='inq-serviceInterest' className={LABEL}>
-            Closest service <span className={HINT}>Optional — skip it if you’re not sure</span>
+            Closest department <span className={HINT}>Optional — skip it if you’re not sure</span>
           </label>
           <select {...fieldProps('serviceInterest')} className={`${FIELD} cursor-pointer`}>
             <option value=''>Choose one (optional)</option>
@@ -339,14 +346,14 @@ export default function InquiryForm({ variant = 'public' }: { variant?: Variant 
             : status.kind === 'failed'
               ? 'Try again'
               : variant === 'public'
-                ? 'Send inquiry'
+                ? 'Request a consultation'
                 : 'Save opportunity'}
         </button>
         {variant === 'public' && (
           <p className='ac-small'>
             We use these details only to reply to you and, if we work together, to manage that
             work.{' '}
-            <Link href='/privacy/' className='underline underline-offset-2 hover:text-[var(--ac-accent)]'>
+            <Link href='/privacy/' className='underline underline-offset-2 hover:text-[var(--ac-ink)]'>
               Privacy notice
             </Link>
           </p>

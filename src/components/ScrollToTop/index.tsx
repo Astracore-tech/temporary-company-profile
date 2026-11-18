@@ -25,12 +25,12 @@ export default function ScrollToTop() {
   }, []);
 
   return (
-    <div className="fixed bottom-8 right-8 z-999">
+    <div className="fixed bottom-8 right-8 z-[999]">
       {isVisible && (
         <button
           onClick={scrollToTop}
-          aria-label="scroll to top"
-          className="back-to-top flex h-10 w-10 items-center justify-center bg-[var(--ac-surface-2)] text-[var(--ac-ink)] border border-[var(--ac-line-strong)] transition duration-300 ease-in-out hover:bg-[var(--ac-accent)] hover:text-[var(--ac-on-accent)] hover:border-[var(--ac-accent)] cursor-pointer"
+          aria-label="Scroll to top"
+          className="back-to-top flex h-10 w-10 cursor-pointer items-center justify-center rounded-[2px] border border-[var(--ac-line-strong)] bg-[var(--ac-surface-2)] text-[var(--ac-ink-2)] transition-colors duration-150 hover:bg-[var(--ac-surface-3)] hover:text-[var(--ac-ink)]"
         >
           <span className="mt-[2px] h-2.5 w-2.5 rotate-45 border-l-2 border-t-2 border-current"></span>
         </button>

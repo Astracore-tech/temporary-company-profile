@@ -32,9 +32,12 @@ const RETIRED_ROUTES = [
   })),
   { source: "/blog/", destination: "/" },
   { source: "/blog/:slug/", destination: "/" },
+  // The brief calls it "Our Work"; keep /portfolio/ as the canonical URL.
+  { source: "/our-work/", destination: "/portfolio/" },
 ];
 
 const nextConfig = {
+  poweredByHeader: false,
   images: {
     unoptimized: true,
   },
@@ -46,6 +49,21 @@ const nextConfig = {
   },
   async headers() {
     return [
+      {
+        source: "/:path*",
+        headers: [
+          { key: "X-Content-Type-Options", value: "nosniff" },
+          { key: "X-Frame-Options", value: "DENY" },
+          {
+            key: "Permissions-Policy",
+            value: "camera=(), microphone=(), geolocation=()",
+          },
+          {
+            key: "Strict-Transport-Security",
+            value: "max-age=31536000; includeSubDomains",
+          },
+        ],
+      },
       {
         // Private area: never index, never cache, never leak the URL onward.
         source: "/inbox/:path*",

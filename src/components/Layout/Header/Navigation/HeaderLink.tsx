@@ -15,23 +15,25 @@ const HeaderLink: React.FC<{ item: HeaderItem }> = ({ item }) => {
 
   return (
     <div
-      className='relative px-4'
+      className='relative px-2.5'
       onMouseEnter={() => item.submenu && setSubmenuOpen(true)}
       onMouseLeave={() => setSubmenuOpen(false)}>
       <Link
         href={item.href}
         aria-current={isActive ? 'page' : undefined}
-        className={`text-[11px] flex items-center gap-1 py-4 font-semibold tracking-[0.22em] uppercase transition-colors duration-300 ${
-          isActive
-            ? 'text-[var(--ac-accent)]'
-            : 'text-[var(--ac-ink-3)] hover:text-[var(--ac-ink)]'
-        }`}>
+        className='flex items-center gap-2 py-4 text-[13px] font-medium text-[var(--ac-ink-3)] transition-colors duration-150 hover:text-[var(--ac-ink)]'>
+        <span
+          aria-hidden='true'
+          className={`h-1 w-1 rounded-[1px] transition-colors ${
+            isActive ? 'bg-[var(--ac-accent)]' : 'bg-transparent'
+          }`}
+        />
         {item.label}
         {item.submenu && (
           <svg
             xmlns='http://www.w3.org/2000/svg'
-            width='1.1em'
-            height='1.1em'
+            width='1em'
+            height='1em'
             viewBox='0 0 24 24'
             aria-hidden='true'
             className='opacity-60'>
@@ -48,16 +50,16 @@ const HeaderLink: React.FC<{ item: HeaderItem }> = ({ item }) => {
       </Link>
 
       {submenuOpen && item.submenu && (
-        <div className='absolute left-4 top-12 w-56 bg-[var(--ac-surface-2)] border border-[var(--ac-line)] p-1 z-50'>
+        <div className='absolute left-2.5 top-12 z-50 w-56 border border-[var(--ac-line)] bg-[var(--ac-surface-2)] p-1'>
           {item.submenu.map((subItem) => {
             const isSubActive = path === subItem.href
             return (
               <Link
                 key={subItem.href}
                 href={subItem.href}
-                className={`block px-4 py-2.5 text-[11px] font-semibold uppercase tracking-[0.16em] transition-colors ${
+                className={`block px-3 py-2 text-[13px] transition-colors ${
                   isSubActive
-                    ? 'bg-[var(--ac-accent)] text-[var(--ac-on-accent)]'
+                    ? 'bg-[var(--ac-surface-3)] text-[var(--ac-ink)]'
                     : 'text-[var(--ac-ink-3)] hover:bg-[var(--ac-surface-3)] hover:text-[var(--ac-ink)]'
                 }`}>
                 {subItem.label}
