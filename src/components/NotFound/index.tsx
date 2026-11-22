@@ -1,46 +1,26 @@
 import React from 'react'
-import Image from 'next/image'
 import Link from 'next/link'
-import { getImgPath } from '@/utils/image'
 
 const NotFound = () => {
   return (
     <section>
       <div className='ac-container'>
-        <div className='grid grid-cols-1 md:grid-cols-2 gap-14 lg:gap-20 items-center'>
-          <div className='relative mx-auto w-full max-w-[360px] opacity-70'>
-            <Image
-              src={getImgPath('/images/svgs/404.svg')}
-              alt=''
-              aria-hidden='true'
-              width={360}
-              height={385}
-              quality={100}
-              priority
-              style={{ width: '100%', height: 'auto' }}
-              className='mx-auto'
-            />
+        <div className='grid grid-cols-1 gap-8 md:grid-cols-12 md:gap-16'>
+          <div className='md:col-span-4'>
+            <p className='ac-meta'>What to do</p>
           </div>
 
-          <div>
-            <p
-              className='text-[var(--ac-ink-4)] font-extrabold leading-none tracking-tighter mb-6'
-              style={{ fontFamily: 'Syne, sans-serif', fontSize: 'clamp(72px, 11vw, 140px)' }}>
-              404
+          <div className='md:col-span-8'>
+            <p className='ac-body max-w-md'>
+              The link may be old, or the address may have a typo. The work and services pages are
+              the best place to pick up from.
             </p>
-            <h2 className='ac-h2 mb-5'>
-              We Can&apos;t Seem to Find The Page You&apos;re Looking For.
-            </h2>
-            <p className='ac-body mb-9 max-w-md'>
-              Oops! The page you are looking for does not exist. It might have been moved or
-              deleted.
-            </p>
-            <div className='flex items-center flex-wrap gap-3'>
+            <div className='mt-8 flex flex-wrap items-center gap-3'>
               <Link href='/' className='ac-btn ac-btn-primary'>
-                Go To Home
+                Back to home
               </Link>
-              <Link href='/contact' className='ac-btn ac-btn-ghost'>
-                Contact Us →
+              <Link href='/portfolio/' className='ac-btn ac-btn-ghost'>
+                See the work
               </Link>
             </div>
           </div>

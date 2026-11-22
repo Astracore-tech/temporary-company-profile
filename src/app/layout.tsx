@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Inter } from "next/font/google";
+import { IBM_Plex_Mono, Inter, Syne } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "next-themes";
 import NextTopLoader from "nextjs-toploader";
@@ -12,7 +12,32 @@ import {
   serviceCatalogSchema,
 } from "@/utils/structuredData";
 
-const inter = Inter({ subsets: ["latin"], display: "swap" });
+const searchVerification: NonNullable<Metadata["verification"]> = {
+  ...(process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION
+    ? { google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION }
+    : {}),
+  ...(process.env.NEXT_PUBLIC_BING_SITE_VERIFICATION
+    ? { other: { "msvalidate.01": process.env.NEXT_PUBLIC_BING_SITE_VERIFICATION } }
+    : {}),
+};
+
+const inter = Inter({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-inter",
+});
+const syne = Syne({
+  subsets: ["latin"],
+  weight: ["400", "500", "600"],
+  display: "swap",
+  variable: "--font-syne",
+});
+const plexMono = IBM_Plex_Mono({
+  subsets: ["latin"],
+  weight: ["400", "500"],
+  display: "swap",
+  variable: "--font-mono",
+});
 
 export const metadata: Metadata = {
   // Makes every relative canonical / OG URL below resolve to an absolute one.
@@ -25,21 +50,30 @@ export const metadata: Metadata = {
   applicationName: SITE.name,
   generator: "Next.js",
   keywords: [
+    "business technology Kenya",
+    "marketing agency Nairobi",
+    "digital marketing Kenya",
+    "AI automation Kenya",
+    "business process automation Nairobi",
+    "WhatsApp automation Kenya",
     "software development Kenya",
-    "IT company Nairobi",
-    "business website Kenya",
-    "customer portal development",
-    "custom business systems Kenya",
-    "M-Pesa integration",
+    "custom business software Nairobi",
+    "website development Kenya",
+    "technical SEO Kenya",
+    "managed business operations",
+    "M-Pesa reconciliation",
     "M-Pesa STK Push integration",
-    "workflow automation Kenya",
-    "web development Nairobi",
   ],
   authors: [{ name: SITE.name, url: SITE.url }],
   creator: SITE.name,
   publisher: SITE.name,
   alternates: { canonical: "/" },
   category: "technology",
+  appleWebApp: {
+    capable: true,
+    title: SITE.shortName,
+    statusBarStyle: "black-translucent",
+  },
   openGraph: {
     type: "website",
     locale: SITE.locale,
@@ -52,7 +86,7 @@ export const metadata: Metadata = {
         url: SITE.ogImage,
         width: SITE.ogImageWidth,
         height: SITE.ogImageHeight,
-        alt: `${SITE.name} — software built in Nairobi`,
+        alt: `${SITE.name} — business technology and growth in Nairobi`,
       },
     ],
   },
@@ -75,6 +109,9 @@ export const metadata: Metadata = {
       "max-snippet": -1,
     },
   },
+  ...(Object.keys(searchVerification).length
+    ? { verification: searchVerification }
+    : {}),
   // Icons come from the app/ file conventions (icon.png, apple-icon.png,
   // favicon.ico), all generated from the brand logo. Declaring them here as
   // well would override those and lose Next's content hashing.
@@ -82,7 +119,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#08090c",
+  themeColor: "#0a0b0e",
   colorScheme: "dark",
   width: "device-width",
   initialScale: 1,
@@ -102,14 +139,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang={SITE.language} suppressHydrationWarning>
+    <html
+      lang={SITE.language}
+      className={`${inter.variable} ${syne.variable} ${plexMono.variable}`}
+      suppressHydrationWarning>
       <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Inter:wght@300;400;500;600&display=swap"
-          rel="stylesheet"
-        />
+        <link rel="preconnect" href="https://cdn.jsdelivr.net" crossOrigin="anonymous" />
         <link
           rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.47.0/tabler-icons.min.css"
@@ -120,7 +155,7 @@ export default function RootLayout({
         />
       </head>
       <body className={inter.className}>
-        <NextTopLoader color="#00E5FF" showSpinner={false} />
+        <NextTopLoader color="#7EA6FF" showSpinner={false} />
         {/* Public chrome lives in (site)/layout.tsx; the founder inbox has its own. */}
         <ThemeProvider attribute="class" enableSystem={false} defaultTheme="dark">
           {children}

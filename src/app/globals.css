@@ -51,58 +51,61 @@
   --color-darklight: #000f30;
   --color-dark_border: #224767;
   --color-Sky-blue-mist: #c0d5fb;
-
-  --background-image-gradient-radial: radial-gradient(var(--tw-gradient-stops));
-  --background-image-gradient-conic: conic-gradient(
-    from 180deg at 50% 50%,
-    var(--tw-gradient-stops)
-  );
 }
 
 /* ══════════════════════════════════════════════════════════════════════════
    ASTRACORE DESIGN SYSTEM
-   One accent. One type scale. One spacing rhythm.
+   One ink ramp. One signal colour. One type scale. One spacing rhythm.
    ══════════════════════════════════════════════════════════════════════════ */
 
 :root {
-  /* Surfaces — a single near-black ramp, never pure #000 */
-  --ac-bg: #08090c;
-  --ac-surface: #0e1014;
-  --ac-surface-2: #14171d;
-  --ac-surface-3: #1b1f27;
+  /* Surfaces — the ink ramp. Cool, near-black, never pure #000. */
+  --ac-bg: #0a0b0e;
+  --ac-surface: #101318;
+  --ac-surface-2: #161a20;
+  --ac-surface-3: #1d222a;
 
-  /* Hairlines */
-  --ac-line: rgba(255, 255, 255, 0.07);
-  --ac-line-strong: rgba(255, 255, 255, 0.14);
+  /* Hairlines — text colour at low alpha, never a coloured border. */
+  --ac-line: rgba(236, 241, 249, 0.08);
+  --ac-line-strong: rgba(236, 241, 249, 0.16);
 
-  /* Text ramp — four steps, no more.
-     Every step clears WCAG AA (4.5:1) against --ac-bg: on this background an
-     alpha of 0.45 lands exactly on 4.5:1, so nothing sits below 0.47. */
-  --ac-ink: #ffffff;              /* 19.5:1 — headings                */
-  --ac-ink-2: rgba(255, 255, 255, 0.72); /* ~10.4:1 — body            */
-  --ac-ink-3: rgba(255, 255, 255, 0.58); /*  ~6.7:1 — secondary       */
-  --ac-ink-4: rgba(255, 255, 255, 0.47); /*  ~4.8:1 — micro labels    */
+  /* Text roles. Four steps, all clearing WCAG AA on --ac-bg. */
+  --ac-ink: #f2f5fa;              /* 17.3:1 — headings, values       */
+  --ac-ink-2: #c5cbd6;            /* 10.2:1 — body                    */
+  --ac-ink-3: #939baa;            /*  5.8:1 — secondary               */
+  --ac-ink-4: #858da0;            /*  4.9:1 — meta and captions       */
 
-  /* Status colours — semantic only. These appear inside the console
-     simulator and estimator, where green/amber carry meaning. They are
-     never used decoratively; the brand has exactly one accent. */
-  --ac-ok: #22d67f;
-  --ac-warn: #e8b53c;
+  /* Status — semantic only. */
+  --ac-ok: #5fd39a;
+  --ac-warn: #e6b95c;
 
-  /* The single accent */
-  --ac-accent: #00e5ff;
-  --ac-accent-dim: rgba(0, 229, 255, 0.14);
-  --ac-accent-line: rgba(0, 229, 255, 0.3);
-  --ac-on-accent: #04121a;
+  /* The single signal colour. Taken from the blue in the mark. */
+  --ac-accent: #7ea6ff;
+  --ac-accent-dim: rgba(126, 166, 255, 0.12);
+  --ac-accent-line: rgba(126, 166, 255, 0.34);
+  --ac-on-accent: #07101f;
+
+  /* Primary actions are paper, not neon. */
+  --ac-button: #edf1f8;
+  --ac-button-hover: #ffffff;
 
   /* Rhythm */
-  --ac-section-y: clamp(60px, 5.5vw, 92px);
+  --ac-section-y: clamp(64px, 6vw, 104px);
   --ac-gutter: clamp(20px, 5vw, 64px);
   --ac-max: 1280px;
   --ac-max-prose: 68ch;
 
+  /* Shape */
+  --ac-radius: 2px;
+  --ac-radius-card: 4px;
+
   /* Motion */
   --ac-ease: cubic-bezier(0.22, 1, 0.36, 1);
+
+  /* Families */
+  --ac-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --ac-display: var(--font-syne), ui-sans-serif, system-ui, sans-serif;
+  --ac-mono: var(--font-mono), ui-monospace, SFMono-Regular, Menlo, monospace;
 }
 
 @layer base {
@@ -125,6 +128,8 @@
     overflow-x: hidden;
     background: var(--ac-bg);
     color: var(--ac-ink-2);
+    font-family: var(--ac-sans);
+    font-variant-numeric: tabular-nums;
   }
 
   /* Section rhythm — uniform vertical cadence across the whole site.
@@ -143,11 +148,14 @@
     outline: 2px solid var(--ac-accent);
     outline-offset: 3px;
   }
+
+  summary::-webkit-details-marker {
+    display: none;
+  }
 }
 
 /* Component classes live in @layer components so Tailwind utilities,
-   which come later in the cascade, can still override them. Unlayered
-   rules would beat every utility and silently break layout. */
+   which come later in the cascade, can still override them. */
 @layer components {
   /* ── Layout primitives ──────────────────────────────────────────────────── */
 
@@ -172,49 +180,49 @@
   /* ── Type scale ─────────────────────────────────────────────────────────── */
 
   .ac-display {
-    font-family: Syne, sans-serif;
-    font-weight: 800;
-    font-size: clamp(38px, 5vw, 68px);
-    line-height: 0.98;
-    letter-spacing: -0.03em;
+    font-family: var(--ac-display);
+    font-weight: 600;
+    font-size: clamp(40px, 5.2vw, 64px);
+    line-height: 1.04;
+    letter-spacing: -0.02em;
     color: var(--ac-ink);
     text-wrap: balance;
   }
 
   .ac-h2 {
-    font-family: Syne, sans-serif;
-    font-weight: 800;
-    font-size: clamp(28px, 3.4vw, 46px);
-    line-height: 1.04;
-    letter-spacing: -0.025em;
+    font-family: var(--ac-display);
+    font-weight: 600;
+    font-size: clamp(30px, 3.2vw, 44px);
+    line-height: 1.08;
+    letter-spacing: -0.02em;
     color: var(--ac-ink);
     text-wrap: balance;
   }
 
   .ac-h3 {
-    font-family: Syne, sans-serif;
-    font-weight: 700;
-    font-size: clamp(19px, 1.5vw, 22px);
+    font-family: var(--ac-display);
+    font-weight: 600;
+    font-size: clamp(19px, 1.5vw, 23px);
     line-height: 1.25;
-    letter-spacing: -0.015em;
+    letter-spacing: -0.01em;
     color: var(--ac-ink);
   }
 
   .ac-h4 {
-    font-family: Syne, sans-serif;
-    font-weight: 700;
-    font-size: 16px;
-    line-height: 1.3;
-    letter-spacing: -0.01em;
+    font-family: var(--ac-display);
+    font-weight: 600;
+    font-size: 17px;
+    line-height: 1.35;
+    letter-spacing: 0;
     color: var(--ac-ink);
   }
 
   /* Body copy is always Inter — never the display face */
   .ac-lead {
-    font-size: clamp(16px, 1.35vw, 18px);
-    line-height: 1.7;
+    font-size: clamp(17px, 1.3vw, 19px);
+    line-height: 1.65;
     color: var(--ac-ink-2);
-    max-width: 52ch;
+    max-width: 56ch;
   }
 
   .ac-body {
@@ -225,33 +233,70 @@
 
   .ac-small {
     font-size: 13px;
-    line-height: 1.6;
+    line-height: 1.65;
     color: var(--ac-ink-3);
   }
 
-  /* Section label — the one place the accent appears as text */
+  /* Quiet section label. Sentence case, no wide tracking. */
   .ac-eyebrow {
     display: inline-flex;
     align-items: center;
-    gap: 10px;
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: 0.28em;
-    text-transform: uppercase;
-    color: var(--ac-accent);
+    gap: 8px;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+    color: var(--ac-ink-3);
   }
 
+  /* The signature: a square status light, the way a console shows state. */
   .ac-eyebrow::before {
     content: '';
     width: 5px;
     height: 5px;
-    border-radius: 999px;
-    background: currentColor;
+    border-radius: 1px;
+    background: var(--ac-accent);
     flex: none;
   }
 
-  /* Muted continuation line — replaces the old near-invisible 13% ghost text.
-     Held at 40% so it stays subordinate but clears 3:1 contrast at display sizes. */
+  .ac-label {
+    display: block;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+    color: var(--ac-ink-3);
+  }
+
+  .ac-meta {
+    font-family: var(--ac-mono);
+    font-size: 11px;
+    font-weight: 400;
+    line-height: 1.55;
+    letter-spacing: 0.01em;
+    color: var(--ac-ink-4);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .ac-index {
+    font-family: var(--ac-mono);
+    font-size: 11px;
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: 0.04em;
+    color: var(--ac-ink-4);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .ac-stat {
+    font-family: var(--ac-display);
+    font-weight: 600;
+    font-size: clamp(28px, 2.6vw, 38px);
+    line-height: 1;
+    letter-spacing: -0.02em;
+    color: var(--ac-ink);
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* Muted continuation line in a two-part heading. */
   .ac-muted-line {
     color: var(--ac-ink-3);
   }
@@ -261,7 +306,8 @@
   .ac-card {
     background: var(--ac-surface);
     border: 1px solid var(--ac-line);
-    transition: border-color 0.3s var(--ac-ease), background-color 0.3s var(--ac-ease);
+    border-radius: var(--ac-radius-card);
+    transition: border-color 0.18s var(--ac-ease), background-color 0.18s var(--ac-ease);
   }
 
   .ac-card:hover {
@@ -269,7 +315,6 @@
     border-color: var(--ac-line-strong);
   }
 
-  /* Equal-height card interiors — fixes the ragged grids */
   .ac-card-body {
     display: flex;
     flex-direction: column;
@@ -287,49 +332,56 @@
     align-items: center;
     justify-content: center;
     gap: 8px;
-    padding: 14px 28px;
+    min-height: 44px;
+    padding: 12px 20px;
+    border: 1px solid transparent;
+    border-radius: var(--ac-radius);
     font-size: 13px;
-    font-weight: 700;
-    letter-spacing: 0.02em;
+    font-weight: 600;
+    letter-spacing: 0;
+    line-height: 1;
     white-space: nowrap;
-    transition: all 0.3s var(--ac-ease);
+    transition: background-color 0.18s var(--ac-ease), border-color 0.18s var(--ac-ease),
+      color 0.18s var(--ac-ease);
   }
 
   .ac-btn-primary {
     background: var(--ac-accent);
     color: var(--ac-on-accent);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.22);
   }
 
   .ac-btn-primary:hover {
-    background: #5cf0ff;
+    background: #9bbaff;
   }
 
   .ac-btn-ghost {
-    border: 1px solid var(--ac-line-strong);
+    border-color: var(--ac-line-strong);
     color: var(--ac-ink);
+    background: transparent;
   }
 
   .ac-btn-ghost:hover {
-    border-color: var(--ac-accent);
-    color: var(--ac-accent);
+    border-color: var(--ac-ink-3);
+    background: var(--ac-surface-2);
   }
 
   .ac-link {
     display: inline-flex;
     align-items: center;
-    gap: 8px;
-    font-size: 12px;
-    font-weight: 700;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
+    gap: 6px;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0;
     color: var(--ac-accent);
     border-bottom: 1px solid var(--ac-accent-line);
-    padding-bottom: 3px;
-    transition: border-color 0.25s var(--ac-ease);
+    padding-bottom: 2px;
+    transition: border-color 0.18s var(--ac-ease), color 0.18s var(--ac-ease);
   }
 
   .ac-link:hover {
     border-color: var(--ac-accent);
+    color: var(--ac-ink);
   }
 
   /* ── Tags / meta chips ──────────────────────────────────────────────────── */
@@ -337,13 +389,14 @@
   .ac-tag {
     display: inline-flex;
     align-items: center;
-    font-size: 10px;
-    font-weight: 600;
-    letter-spacing: 0.22em;
-    text-transform: uppercase;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0;
     color: var(--ac-ink-3);
     border: 1px solid var(--ac-line);
-    padding: 5px 10px;
+    border-radius: var(--ac-radius);
+    padding: 3px 8px;
+    line-height: 1.4;
   }
 
   .ac-tag-accent {
@@ -352,8 +405,8 @@
   }
 
   /* ── Photography treatment ──────────────────────────────────────────────
-     Every photo on the site gets the same grade so bright stock imagery
-     sits inside the near-black theme instead of punching holes in it. */
+     Kept for any remaining editorial image. The hero no longer uses a stock
+     photograph; it shows the product instead. */
 
   .ac-media {
     position: relative;
@@ -361,8 +414,6 @@
     background: var(--ac-surface-2);
   }
 
-  /* Direct children get the box; any descendant image gets the grade, so
-     next/image `fill` (which nests the <img>) is treated the same way. */
   .ac-media > img {
     position: absolute;
     inset: 0;
@@ -373,8 +424,8 @@
   }
 
   .ac-media img {
-    filter: saturate(0.5) contrast(1.06) brightness(0.62);
-    transition: filter 0.6s var(--ac-ease), transform 0.7s var(--ac-ease);
+    filter: saturate(0.6) contrast(1.04) brightness(0.72);
+    transition: filter 0.4s var(--ac-ease);
   }
 
   .ac-media::after {
@@ -383,21 +434,20 @@
     inset: 0;
     background: linear-gradient(
       to top,
-      rgba(8, 9, 12, 0.92) 0%,
-      rgba(8, 9, 12, 0.45) 45%,
-      rgba(8, 9, 12, 0.15) 100%
+      rgba(10, 11, 14, 0.88) 0%,
+      rgba(10, 11, 14, 0.38) 48%,
+      rgba(10, 11, 14, 0.08) 100%
     );
     pointer-events: none;
   }
 
   .ac-media-plain::after {
-    background: linear-gradient(to top, rgba(8, 9, 12, 0.55) 0%, rgba(8, 9, 12, 0.1) 70%);
+    background: linear-gradient(to top, rgba(10, 11, 14, 0.5) 0%, rgba(10, 11, 14, 0.06) 70%);
   }
 
   .group:hover .ac-media img,
   .ac-media:hover img {
-    filter: saturate(0.85) contrast(1.04) brightness(0.8);
-    transform: scale(1.04);
+    filter: saturate(0.8) contrast(1.02) brightness(0.86);
   }
 
   /* ── Hairline dividers ──────────────────────────────────────────────────── */
@@ -406,118 +456,56 @@
     border-top: 1px solid var(--ac-line);
   }
 
-  /* ── Utility kept from the previous theme ───────────────────────────────── */
+  /* ── Single load entrance ───────────────────────────────────────────────── */
 
-  .margin_top {
-    @apply md:mt-[6.25rem] mt-0;
+  .ac-enter {
+    animation: ac-enter 0.5s var(--ac-ease) both;
   }
 
-  /* Slick Slider */
-  .slick-slide,
-  .portfolio_slide {
-    @apply focus-visible:outline-0!;
-  }
-  .slick-dots li.slick-active button:before {
-    @apply opacity-100! text-primary! w-4! h-4!;
-  }
-  .slick-dots li button:before {
-    @apply text-base! text-[#BBC8D5]! opacity-100!;
+  .ac-enter-delay {
+    animation-delay: 0.08s;
   }
 
-  /* ── Blog article body ──────────────────────────────────────────────────── */
-
-  .blog-details {
-    font-size: 16px;
-    line-height: 1.8;
-    color: var(--ac-ink-2);
+  /* Product preview: a small, purposeful change when a module is selected. */
+  .ac-swap {
+    animation: ac-swap 0.28s var(--ac-ease) both;
   }
 
-  .blog-details p,
-  .blog-details hr {
-    margin-bottom: 1.75rem;
+  /* Only used on the live status light in the product preview. */
+  .ac-live {
+    animation: ac-live 2.6s ease-in-out infinite;
   }
+}
 
-  .blog-details hr {
-    border-top: 1px solid var(--ac-line);
+@keyframes ac-enter {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
   }
-
-  .blog-details strong {
-    font-weight: 700;
-    color: var(--ac-ink);
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
+}
 
-  .blog-details ul {
-    margin-bottom: 1.75rem;
-    list-style: disc;
-    list-style-position: inside;
+@keyframes ac-swap {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
   }
-
-  .blog-details ol {
-    margin-bottom: 1.75rem;
-    list-style: decimal;
-    list-style-position: inside;
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
+}
 
-  .blog-details li {
-    margin-bottom: 0.65rem;
+@keyframes ac-live {
+  0%,
+  100% {
+    opacity: 1;
   }
-
-  .blog-details h1,
-  .blog-details h2,
-  .blog-details h3 {
-    font-family: Syne, sans-serif;
-    font-weight: 800;
-    letter-spacing: -0.025em;
-    color: var(--ac-ink);
-    margin-top: 2.75rem;
-    margin-bottom: 1.25rem;
-  }
-
-  .blog-details h1 {
-    font-size: clamp(28px, 3vw, 38px);
-    line-height: 1.12;
-  }
-
-  .blog-details h2 {
-    font-size: clamp(24px, 2.4vw, 30px);
-    line-height: 1.16;
-  }
-
-  .blog-details h3 {
-    font-size: 21px;
-    line-height: 1.25;
-  }
-
-  .blog-details img {
-    margin-block: 2.5rem;
-    width: 100%;
-    border: 1px solid var(--ac-line);
-    object-fit: cover;
-    filter: saturate(0.6) brightness(0.85);
-  }
-
-  .blog-details a {
-    color: var(--ac-accent);
-    text-decoration: underline;
-    text-underline-offset: 4px;
-  }
-
-  /* ── Legacy helpers still referenced by a few components ────────────────── */
-
-  .premium-glass {
-    background: rgba(255, 255, 255, 0.025);
-    backdrop-filter: blur(12px);
-    border: 1px solid var(--ac-line);
-  }
-
-  .cyan-glow {
-    box-shadow: 0 0 35px rgba(0, 229, 255, 0.08);
-  }
-
-  .premium-text-gradient {
-    background: linear-gradient(135deg, #ffffff 40%, #c1cbd6 80%, #00e5ff 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+  50% {
+    opacity: 0.45;
   }
 }
 

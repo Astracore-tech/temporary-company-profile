@@ -9,7 +9,7 @@ export default async function SignInPage() {
   return (
     <div className='max-w-sm mx-auto pt-6 sm:pt-12'>
       <h1 className='ac-h2 mb-2'>Sign in</h1>
-      <p className='ac-small mb-8'>Staff only. Accounts are created by the founder.</p>
+      <p className='ac-small mb-8'>Staff only. Accounts are created by Mark.</p>
       <SignInForm />
     </div>
   )

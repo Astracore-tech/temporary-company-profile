@@ -1,11 +1,11 @@
 import React from 'react'
 
 type Props = {
-  /** Small accent label above the title */
+  /** Quiet label above the title */
   eyebrow: string
   /** Section title — plain text, or JSX when a line break is needed */
   title?: React.ReactNode
-  /** Supporting copy shown opposite the title on wide screens */
+  /** Supporting copy shown beside the title on wide screens */
   description?: React.ReactNode
   /** Optional trailing slot (a link, a count, a control) below the description */
   aside?: React.ReactNode
@@ -16,8 +16,7 @@ type Props = {
 
 /**
  * The single section header used across the site.
- * Keeps eyebrow → title → supporting copy at one consistent scale and rhythm
- * so every section opens the same way.
+ * Eyebrow → title → supporting copy at one scale and rhythm.
  */
 const SectionHeading = ({
   eyebrow,
@@ -29,51 +28,27 @@ const SectionHeading = ({
 }: Props) => {
   if (center) {
     return (
-      <div className={`flex flex-col items-center text-center mb-14 ${className}`}>
-        <span className='ac-eyebrow' data-aos='fade-up' data-aos-duration='700'>
-          {eyebrow}
-        </span>
-        {title && (
-          <h2 className='ac-h2 mt-6' data-aos='fade-up' data-aos-delay='80' data-aos-duration='700'>
-            {title}
-          </h2>
-        )}
-        {description && (
-          <p
-            className='ac-body mt-6 max-w-2xl'
-            data-aos='fade-up'
-            data-aos-delay='140'
-            data-aos-duration='700'>
-            {description}
-          </p>
-        )}
-        {aside && <div className='mt-8'>{aside}</div>}
+      <div className={`flex flex-col items-center text-center mb-12 lg:mb-16 ${className}`}>
+        <span className='ac-eyebrow'>{eyebrow}</span>
+        {title && <h2 className='ac-h2 mt-4'>{title}</h2>}
+        {description && <p className='ac-small mt-5 max-w-xl'>{description}</p>}
+        {aside && <div className='mt-6'>{aside}</div>}
       </div>
     )
   }
 
   return (
     <div
-      className={`flex flex-col lg:flex-row lg:items-end justify-between gap-8 lg:gap-16 mb-14 ${className}`}>
-      <div className='min-w-0'>
-        <span className='ac-eyebrow' data-aos='fade-up' data-aos-duration='700'>
-          {eyebrow}
-        </span>
-        {title && (
-          <h2 className='ac-h2 mt-6' data-aos='fade-up' data-aos-delay='80' data-aos-duration='700'>
-            {title}
-          </h2>
-        )}
+      className={`grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-12 items-end mb-12 lg:mb-16 ${className}`}>
+      <div className='lg:col-span-7 min-w-0'>
+        <span className='ac-eyebrow'>{eyebrow}</span>
+        {title && <h2 className='ac-h2 mt-4'>{title}</h2>}
       </div>
 
       {(description || aside) && (
-        <div
-          className='lg:max-w-sm lg:text-right shrink-0'
-          data-aos='fade-up'
-          data-aos-delay='140'
-          data-aos-duration='700'>
-          {description && <p className='ac-small leading-relaxed'>{description}</p>}
-          {aside && <div className='mt-6 flex lg:justify-end'>{aside}</div>}
+        <div className='lg:col-span-5 lg:pl-8'>
+          {description && <p className='ac-small max-w-sm'>{description}</p>}
+          {aside && <div className='mt-5'>{aside}</div>}
         </div>
       )}
     </div>

@@ -10,9 +10,9 @@ const Breadcrumb: FC<BreadcrumbProps> = ({ links }) => {
 
   return (
     <nav aria-label='Breadcrumb'>
-      <ol className='flex items-center flex-wrap justify-center gap-2.5 text-[13px]'>
+      <ol className='flex items-center flex-wrap justify-start gap-2 text-[12px]'>
         {links.map((link, index) => (
-          <li key={link.href + link.text} className='flex items-center gap-2.5'>
+          <li key={link.href + link.text} className='flex items-center gap-2'>
             {index !== lastIndex ? (
               <>
                 <Link
